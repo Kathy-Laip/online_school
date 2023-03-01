@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="feedback.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="logIn.css">
+    <link rel="icon" href="image/logo.png">
+    <link rel="stylesheet" href="vill.php">
+    <title>Feedback</title>
+    <style>
+        .bp_post {
+            color:#363636;
+            padding: 15px 0;
+            margin-top: -1px;
+            border: solid #e7e8ec;
+            border-width: 1px 0;
+        }
+        .bp_thumb {
+            float: left;
+        }
+        .bp_thumb, .bp_img {
+            width: 50px;
+            height: 50px;
+        }
+        .bp_img {
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .bp_info {
+            margin-left: 62px;
+        }
+        .bp_author_wrap {
+            line-height: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .bp_author {
+            font-weight: 700;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #42648b;
+        }
+        a.bp_date {
+            color: #939393;
+            font-size:11px;
+            
+        }
+        a.img.imgvk, img.imgvk {
+            height:150px;
+            margin:5px;    
+        }
+        
+    @media only screen and (max-width: 479px) {
+        a.img.imgvk, img.imgvk {
+            max-height:90px;
+            max-width:120px;
+            margin:3px;    
+        }
+        
+        .bp_thumb, .bp_img {
+            width: 40px;
+            height: 40px;
+        } 
+        .bp_info {
+            margin-left: 50px;
+        }    
+    }
+    </style>
+</head>
+<body>
+    <div class="header1">
+        <img src="image/logo.png" alt="" style="position:absolute; left: 2%; top: 5%;">
+        <a href="index.html" class="text link" style="font-size: 36px; position:absolute; left: 9%; top: 30%;">Cerebrum school</a>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html" class="link">Главная</a></li>
+                <li><a href="#" class="link">Преподаватели</a></li>
+                <li><a href="feedback.html" class="link">Отзывы</a></li>
+            </ul>
+        </div>
+        <div class="logIn">
+            <a href="logIn.html" class="link">Войти</a>
+        </div>
+    </div>
+
+    <div class="h1">
+        <p class="text">Вот что говорят наши ученики</p>
+    </div>
+
+    <div class="logo_back">
+        <img src="image/logo_back.png" alt="">
+    </div>
+    
+    <div class="centerblock">
+        
+    </div>
+
+    <div class="footer">
+        <div id="contact" class="text">Контакты</div>
+        <!-- <button class="vk"><a href="https://vk.com/cerebrum_school" target="_blank"></a></button> -->
+        <div class="number text">8 (800) 555-35-35</div>
+    </div>
+
+    <!-- <script type="text/javascript">
+        request = new XMLHttpRequest()
+        request.open('POST','https://api.vk.com/board.getComments?group_id=148573245?topic_id=48845168?need_likes=1?count=10?extended=1?sort=desc/?&access_token=&v=', true)
+        const pic = new Promise((resolve, reject) => {
+            request.onload = function(){
+                var dataFromDBOne = request.responseText;
+                resolve(dataFromDBOne)
+                if(dataFromDBOne === ''){
+                    reject("")
+                }
+            }
+        })
+        .then(dt => {
+            get_data(dt)
+        })
+        .catch(err =>{console.log('err')})
+
+        async function get_data(data){
+            console.log(data)
+        }
+    </script> -->
+</body>
+</html>

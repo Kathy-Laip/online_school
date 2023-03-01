@@ -1,0 +1,329 @@
+:root{
+    --yellow: #FFDD31;
+    --black: #000;
+    --white: #fff;
+    --blue: #0687FF;
+    --gray: #E2E2E2;
+    --light-blue: #0687FF;
+    --dark-blue: #1600A0;
+    --light-dark-blue: #5134FF;
+    --green: #0DA382;
+    --red: #FF5E5E;
+    --purple: #2F00E933;
+}
+
+.text{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.container{
+    display: block;
+    background-color: var(--yellow);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 65px;
+    z-index: 1;
+}
+
+.header{
+    background-color: var(--white);
+    position: fixed;
+    left: 0;
+    top: 65px;
+    width: 100%;
+    height: 80px;
+    border: 1px solid var(--black);
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+.link{
+    text-decoration: none;
+    color: var(--black);
+}
+
+.link:hover{
+    color: var(--blue);
+}
+
+.subjects{
+    background-color: var(--gray);
+    border-radius: 43px;
+    width: 720px;
+    height: 433px;
+    position: absolute;
+    left: 5%;
+    top: 210px;
+}
+
+ul.subs li{
+    list-style-type: none;
+}
+
+ul.subs{
+    position: absolute;
+    top: 15%;
+    left: -20px;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.subject_button{
+    border-radius: 10px;
+    border: 1px solid var(--black);
+    margin: 10px;
+    background-color: var(--gray);
+    width: 300px;
+    height: 40px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+}
+
+.ul.subs li a{
+    text-align: center;
+}
+
+#owerLesson{
+    position: absolute;
+    top: 700px;
+    left: 10%;
+    text-align: center;
+}
+
+.signUp{
+    background-color: var(--light-blue);
+    width: 1320px;
+    height: 554px;
+    border-radius: 43px;
+    position: relative;
+    top: 860px;
+    left: 4%;
+}
+
+.btnSignUp{
+    background-color: var(--dark-blue);
+    border: 1px solid var(--light-dark-blue);
+    border-radius: 43px;
+    box-shadow: 5px 5px 11px var(--dark-blue), 5px 5px 4px #2B09FF66 inset;
+    text-align: center;
+    width: 320px;
+    height: 86px;
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+}
+
+.btnSignUp a{
+    text-align: center;
+    font-size: 36px;
+    color: var(--white);
+    text-decoration: none;
+}
+
+.txtsi{
+    position: absolute; 
+    top: 15%; 
+    left: 5%; 
+    font-size: 60px; 
+    word-wrap: break-word;
+    word-break: keep-all;
+    width: 500px;
+    text-align: center;
+}
+
+.advantagesdiv{
+    width:200px;
+    word-wrap: break-word;
+    word-break: keep-all;
+    font-size: 36px;
+    margin-left: 20%;
+    margin-right: 20%;
+    
+}
+
+.advantages{
+    position: absolute;
+    top:1450px;
+    left: 5%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 50%;
+}
+
+.circle{
+    width: 20px !important ;
+    height: 20px;
+    position:absolute;
+    border-radius: 50%;
+    border: 1px solid var(--black);
+    top:5%;
+    margin-right: 10px !important;
+}
+s
+
+.ad{
+    position: relative;
+}
+
+.info{
+    position: relative;
+    top: 1100px;
+    left: 0%;
+    display: inline-block; 
+}
+
+.sale{
+    border-radius: 43px; 
+    background-color: var(--green); 
+    width:580px;
+    height: 480px;
+    color: var(--black);
+    font-size: 36px;
+    position: relative;
+    top: 0;
+    left: 4%;
+}
+
+.textSale{
+    color: var(--black);
+    font-size: 36px;
+    position: absolute;
+    left: 10%;
+    top: 10%;
+}
+
+.lessonTime{
+    border-radius: 43px; 
+    background-color: var(--yellow); 
+    width: 640px;
+    height: 400px;
+    color: var(--black);
+    font-size: 36px;
+    position: relative;
+    top: 100px;
+    left: 4%;
+}
+
+.textLesson{
+    color: var(--black);
+    font-size: 36px;
+    position: absolute;
+    left: 10%;
+    top: 10%;
+}
+
+.advantages2{
+    border-radius: 43px; 
+    background-color: var(--blue); 
+    width: 640px;
+    height: 560px;
+    color: var(--black);
+    font-size: 36px;
+    position: relative;
+    top: -200px;
+    left: 115%;
+}
+
+.textad{
+    color: var(--black);
+    font-size: 36px;
+    position: absolute;
+    left: 10%;
+    top: 10%;
+}
+
+.jobs{
+    border-radius: 43px; 
+    background-color: var(--green); 
+    width: 580px;
+    height: 480px;
+    color: var(--black);
+    font-size: 36px;
+    position: relative;
+    top: -380px;
+    left: 4%;
+}
+
+.footer{
+    background-color: var(--black);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+}
+
+/* #id{
+    position: absolute;
+    left:10%;
+    top: 5%;
+    font-size: 36px;
+    
+} */
+
+#contact{
+    color: var(--white);
+    font-size: 36px;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+}
+
+.vk{
+    background-image: url(image/image\ 3.png);
+    background-origin: border-box;
+    position: absolute;
+    top: 15%;
+    left: 22%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+}
+
+.number{
+    position: absolute;
+    left: 25%;
+    top: 14%;
+    font-size: 36px;
+    color: var(--white);
+}
+
+.menu{
+    position: absolute;
+    top:8%;
+    left:30%;
+    width: 100%;
+}
+
+.menu ul{
+    list-style-type: none;
+}
+.menu ul li{
+    text-decoration: none;
+}
+
+.menu li a{
+    float: left;
+    padding-right: 5%;
+    color: var(--black);
+    font-size: 36px;
+    margin-right: 10px;
+}
+
+.logIn{
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    border: 1px solid var(--black);
+    border-radius: 40px;
+    padding: 10px 20px;
+    /* margin: 10px; */
+}
+
+.logIn a{
+    text-decoration: none;
+    font-size: 36px;
+}
