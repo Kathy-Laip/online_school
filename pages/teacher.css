@@ -1,0 +1,19 @@
+.infoAboutTeacher{
+    position: absolute;
+    top: 150px;
+    left:5%;
+    width: 50%;
+    height: 550px;
+    border-radius: 43px;
+    border: 1px solid var(--black);
+}
+
+.textInfo{
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+
+.subjectTeacher{
+    font-size: 36px;
+}

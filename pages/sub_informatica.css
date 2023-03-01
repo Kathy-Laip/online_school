@@ -1,0 +1,20 @@
+.subInfo{
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    width: 90%;
+    height: 60%;
+    background-color: var(--blue-blue);
+    border-radius: 43px;
+}
+
+.textsis{
+    position: absolute; 
+    top: 15%; 
+    left: 5%; 
+    font-size: 80px; 
+    word-wrap: break-word;
+    word-break: keep-all;
+    width: 480px;
+    text-align: center;
+}

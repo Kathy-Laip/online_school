@@ -10,6 +10,7 @@
     --green: #0DA382;
     --red: #FF5E5E;
     --purple: #2F00E933;
+    --blue-blue: #4BA2E0CC;
 }
 
 .text{
@@ -161,7 +162,6 @@ ul.subs{
     top:5%;
     margin-right: 10px !important;
 }
-s
 
 .ad{
     position: relative;
