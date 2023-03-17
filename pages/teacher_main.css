@@ -1,0 +1,28 @@
+.count_student{
+    position: absolute;
+    left: 5%;
+    top: 15%;
+    font-size: 36px;
+}
+
+.students_container{
+    position: absolute;
+    left: 5%;
+    top: 25%;
+    width: 50%;
+    height: 65%;
+    background-color: var(--white);
+    overflow: scroll;
+}
+
+.stud{
+    box-sizing: border-box;
+    width: 90%;
+    height: 80px;
+    background-color: var(--gray);
+    margin: 20px;
+    overflow-y: hidden;
+    text-align: left;
+    padding: 20px;
+    font-size: 36px;
+}

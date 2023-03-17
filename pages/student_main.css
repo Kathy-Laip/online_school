@@ -1,0 +1,54 @@
+.cont{
+    position: absolute;
+    left: 5%;
+    top: 15%;
+    width: 90%;
+    height: 20%;
+    border-radius: 10px;
+}
+
+.text_cont{
+    position: absolute;
+    top: 30%;
+    left: 5%;
+    font-size: 36px;
+}
+
+.courses{
+    position: absolute;
+    left: 5%;
+    top: 45%;
+    width: 50%;
+    height: 40%;
+    overflow: scroll;
+}
+
+.access{
+    font-size: 36px;
+    position: absolute;
+    left: 6%;
+    top: 40%;
+}
+
+.btn_cour{
+    box-sizing: border-box;
+    width: 100%;
+    height: 80px;
+    border-radius: 30px;
+    background-color: var(--blue);
+    margin-left: 0 !important;
+    margin: 15px;
+    text-align: left;
+    padding: 20px;
+    font-size: 36px;
+    color: var(--white);
+    border: none;
+}
+
+.btn_cour:hover{
+    background-color: var(--yellow);
+}
+
+.btn_cour:active{
+    background-color: var(--yellow);
+}

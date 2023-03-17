@@ -17,6 +17,17 @@
     font-family: 'Times New Roman', Times, serif;
 }
 
+.text1{
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    font-size: 36px;
+    font-weight: bold;
+    left:40%;
+    top:20%;
+    text-align: center;
+}
+
 .container{
     display: block;
     background-color: var(--yellow);
@@ -95,7 +106,7 @@ ul.subs{
 
 .signUp{
     background-color: var(--light-blue);
-    width: 1320px;
+    width: 90%;
     height: 554px;
     border-radius: 43px;
     position: relative;
@@ -183,7 +194,7 @@ ul.subs{
     font-size: 36px;
     position: relative;
     top: 0;
-    left: 4%;
+    left: 5%;
 }
 
 .textSale{

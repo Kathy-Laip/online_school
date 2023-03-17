@@ -1,0 +1,141 @@
+.appAndCall{
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 1217px;
+    height: 250px;
+    left: calc(50% - 1217px/2 - 13.5px);
+    top: 155px;
+
+    background: rgba(237, 171, 0, 0.8);
+    border: 1px solid #000000;
+    border-radius: 56px;
+}
+
+.textAppAndCall{
+    position: absolute;
+    width: 971px;
+    height: 155px;
+    left: calc(50% - 971px/2 - 104.5px);
+    font-size: 64px;
+    line-height: 77px;
+    top: 30px;
+
+    color: #000000;
+}
+
+.app{
+    box-sizing: border-box;
+
+    position: relative;
+    width: 1217px;
+    height: 1167px;
+    left: calc(50% - 1217px/2 - 13.5px);
+    top: 480px;
+
+    background: rgba(47, 0, 233, 0.2);
+    border: 1px solid #000000;
+    border-radius: 43px;
+    margin-bottom: 500px;
+}
+
+.otstup{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 112px;
+    top: 1700px;
+}
+
+.fio{
+    position: absolute;
+    width: 90%;
+    height: 170px;
+    left: 5%;
+    top: 10%;
+    font-size: 64px;
+    color:var(--black)
+}
+
+
+.fio input{
+    width: 100%;
+    height: 80px;
+    border-radius: 10px;
+    font-size: 48px;
+}
+
+.subject{
+    position: absolute;
+    width: 90%;
+    height: 130px;
+    left: 5%;
+    top: 30%;
+    font-size: 64px;
+    color:var(--black);
+}
+
+.numbers{
+    position: absolute;
+    width: 90%;
+    height: 170px;
+    left: 5%;
+    top: 50%;
+    font-size: 64px;
+    color:var(--black)
+}
+
+
+.numbers input{
+    width: 100%;
+    height: 80px;
+    border-radius: 10px;
+    font-size: 48px;
+}
+
+.email{
+    position: absolute;
+    width: 90%;
+    height: 170px;
+    left: 5%;
+    top: 70%;
+    font-size: 64px;
+    color:var(--black)
+}
+
+
+.email input{
+    width: 100%;
+    height: 80px;
+    border-radius: 10px;
+    font-size: 48px;
+}
+
+.btnapp{
+    position: absolute;
+    width: 435px;
+    height: 100px;
+    right: 5%;
+    bottom: 5%;
+}
+
+.btnappbtn{
+    background-color: #9E62FF;
+    color: var(--black);
+    font-size: 64px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.btnappbtn:hover{
+    background-color: var(--blue);
+}
+
+#subb{
+    font-size: 36px !important;
+    width: 60%;
+    height: 80px;
+    border-radius: 10px;
+}
