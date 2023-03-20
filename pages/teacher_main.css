@@ -26,3 +26,7 @@
     padding: 20px;
     font-size: 36px;
 }
+
+.stud:hover{
+    background-color: var(--yellow);
+}

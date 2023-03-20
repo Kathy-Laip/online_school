@@ -1,0 +1,122 @@
+.nameSubject{
+    position: absolute;
+    top: 15%;
+    background-color: var(--blue);
+    color: var(--white);
+    margin-left: 20%;
+    margin-right: 20%;
+    width: 60%;
+    height: 120px;
+    font-size: 96px;
+    text-align: center;
+    border-radius: 30px;
+}
+
+.access{
+    font-size: 36px;
+    position: absolute;
+    left: 4%;
+    top: 33%;
+}
+
+.courses{
+    position: absolute;
+    left: 4%;
+    top: 40%;
+    width: 50%;
+    height: 50%;
+    overflow: scroll;
+    border: 1px solid var(--black);
+}
+
+.btn_cour{
+    box-sizing: border-box;
+    width: 90%;
+    height: 80px;
+    border-radius: 30px;
+    background-color: var(--blue);
+    margin-left: 15px !important;
+    margin: 15px;
+    text-align: left;
+    padding: 20px;
+    font-size: 36px;
+    color: var(--white);
+    border: none;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.btn_cour:hover{
+    background-color: var(--yellow);
+}
+
+.btn_cour:active{
+    background-color: var(--yellow);
+}
+
+.progressCurrentMonth{
+    font-size: 36px;
+    position: absolute;
+    left: 56%;
+    top: 33%;
+}
+
+.progressCurrentCourse{
+    font-size: 36px;
+    position: absolute;
+    left: 56%;
+    top: 40%;
+    height: 100px;
+    width: 40%;
+    /* border: 1px solid var(--black); */
+}
+
+.containerProgress{
+    border:1px solid var(--black);
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    border-radius: 15px;
+}
+
+/* .greenLine{
+    height: 100%;
+    background-color: var(--green);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+} */
+
+.planedLesson{
+    font-size: 36px;
+    position: absolute;
+    left: 56%;
+    top: 70%;
+    width: 30%;
+    height: 20%;
+}
+
+.firstLesson{
+    background-color: var(--blue);
+    color: var(--white);
+    font-size: 24px;
+    border-radius: 30px;
+    width: 80%;
+    height: 30%;
+    margin: 10px;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.secondLesson{
+    background-color: var(--blue);
+    color: var(--white);
+    font-size: 24px;
+    border-radius: 30px;
+    width: 80%;
+    height: 30%;
+    margin: 10px;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+}

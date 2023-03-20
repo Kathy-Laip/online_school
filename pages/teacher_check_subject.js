@@ -1,5 +1,5 @@
 var request = new XMLHttpRequest() // подключение библиотеки
-request.open('POST', '/subject.html', true) // открытие пришедшего запроса
+request.open('POST', '/teacher_check_subject.html', true) // открытие пришедшего запроса
 
 const p = new Promise((resolve, reject) =>{ // промис на прочитывание данных
     request.onload = function(){
@@ -146,7 +146,7 @@ async function proc(data){ // функция для парсинга данны�
 
         // отсылка данных на сервер
         function sentWork(){
-            fetch('/sendInfo', {
+            fetch('/sendInfoStudent', {
                 method: 'POST',
                 body: JSON.stringify(info),
                 headers: {
@@ -158,7 +158,7 @@ async function proc(data){ // функция для парсинга данны�
         }
         
         setTimeout(function(){
-            window.location.href = '/files_page.html';
+            window.location.href = '/teacher_check_files.html';
         }, 1000)
     })
 

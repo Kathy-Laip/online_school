@@ -1,5 +1,5 @@
 var request = new XMLHttpRequest() // подключение библиотеки
-request.open('POST', '/teacher_main.html', true) // открытие пришедшего запроса
+request.open('POST', '/teacher_check_stud_main.html', true) // открытие пришедшего запроса
 
 const p = new Promise((resolve, reject) =>{ // промис на прочитывание данных
     request.onload = function(){
@@ -12,47 +12,49 @@ const p = new Promise((resolve, reject) =>{ // промис на прочиты�
 
 async function proc(data){ // функция для парсинга данных
     console.log(data)
-    var masData = data.split(',')
-    console.log(masData)
-    masOfMas = []
+    masData = data.split(',')
+    var masOfMas = []
     for(let i = 0; i < masData.length; i++){
         var masElem = masData[i].split(' ')
-        masElem[0] = masElem[0].replace('{','').split('"')[1]
-        masElem[6] = masElem[6].replace('"','').replace('}','')
+        // masElem[0] = masElem[0].slice(5,7)
+        masElem[5] = masElem[5].replace('"','').replace('}','').replace('\\','')
+        masElem[6] = masElem[6].replace('"','').replace('}','').replace('\\','')
         masOfMas.push(masElem)
     }
     console.log(masOfMas)
-    var count = document.querySelector('.count_student')
-    var info = `Ученики: ${masOfMas.length}`
-    count.innerHTML  = info
+    var now = new Date().toLocaleDateString();
+
+    // console.log(new Date())
+    var helloStudent = document.querySelector('.cont')
+    var sayHello = `<div class="text_cont"> привет, ${masOfMas[0][3]}<br>сегодня ${now}</div>`
+    helloStudent.innerHTML = sayHello
+
     for(let i = 0; i < masOfMas.length; i++){
-        var inp = document.querySelector('.students_container')
-        var str = `<button class="stud">${masOfMas[i][1]} ${masOfMas[i][2]} ${masOfMas[i][3]} ${masOfMas[i][4]} ${masOfMas[i][6]}</button>`
-        inp.innerHTML += str
+        var sub = document.querySelector('.courses')
+        var text_courses = `<button class="btn_cour">${masOfMas[i][5]}</button>`
+        sub.innerHTML += text_courses
     }
 
-    document.querySelectorAll('.stud').forEach(n => n.onclick = function(){
+
+    document.querySelectorAll('.btn_cour').forEach(n => n.onclick = function(){
         var id_groups = 0
-        var stud = n.innerHTML
-        console.log(stud)
+        var subject = n.innerHTML
         for(let i = 0 ; i < masOfMas.length; i++){
-            var innerMas = masOfMas[i].slice(1,5).join(' ') + ' ' + masOfMas[i][6]
-            console.log(innerMas)
-            if (innerMas == stud){
-                id_groups = Number(masOfMas[i][0])
+            if (masOfMas[i][5] == subject){
+                id_groups = Number(masOfMas[i][6])
             }
         }
         console.log(id_groups)
 
         setTimeout(function(){
-            window.location.href = '/teacher_check_stud_main.html';
+            window.location.href = '/teacher_check_subject.html';
         }, 1000)
 
         sentIdGroups()
                                 
         // отсылка данных на сервер
         function sentIdGroups(){
-            fetch('/sendIdGroupStud', {
+            fetch('/sendIdGroupsStudSub', {
                 method: 'POST',
                 body: JSON.stringify(id_groups),
                 headers: {
@@ -63,7 +65,6 @@ async function proc(data){ // функция для парсинга данны�
         }
     })
 }
-
 
 
 request.send()

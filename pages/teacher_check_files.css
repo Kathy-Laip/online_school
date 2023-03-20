@@ -1,0 +1,101 @@
+.lesson{
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    width: 40%;
+    height: 80px;
+    font-size: 36px;
+    text-align: center;
+    background-color: var(--blue);
+    color: var(--white);
+    border-radius: 30px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.class{
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    font-size: 36px;
+}
+
+.classroom{
+    position: absolute;
+    top: 35%;
+    left: 10%;
+    width: 35%;
+    height: 55%;
+    overflow-y: scroll;
+    border: 1px solid var(--black);
+}
+
+.home{
+    position: absolute;
+    top: 30%;
+    left: 55%;
+    font-size: 36px;
+}
+
+.homework{
+    position: absolute;
+    top: 35%;
+    left: 55%;
+    width: 35%;
+    height: 55%;
+    overflow-y: scroll;
+    border: 1px solid var(--black);
+}
+
+#avatar{
+    position: absolute;
+    bottom: 2%;
+    left: 55%;
+    width: 20%;
+    height: 5%;
+    /* background-color: var(--blue);
+    color: var(--white);
+    border-radius: 10px; */
+}
+
+#btn2{
+    position: absolute;
+    bottom: 2%;
+    left: 82%;
+    width: 8%;
+    height: 5%;
+}
+
+#ava{
+    position: absolute;
+    bottom: 2%;
+    left: 10%;
+    width: 20%;
+    height: 5%;
+}
+
+#btn1{
+    position: absolute;
+    bottom: 2%;
+    left: 37%;
+    width: 8%;
+    height: 5%;
+}
+
+.file_class{
+    width: 80%;
+    font-size: 36px;
+    margin: 10px;
+    height: 40px;
+    text-align: left;
+    border-radius: 1px solid var(--black);
+}
+
+.file_home{
+    width: 80%;
+    font-size: 36px;
+    margin: 10px;
+    height: 40px;
+    text-align: left;
+    border-radius: 1px solid var(--black);
+}

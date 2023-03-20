@@ -1,11 +1,13 @@
 let express = require('express') // node express
-var bodyParser = require('body-parser') 
+// var bodyParser = require('body-parser') 
 const fileUpload = require('express-fileupload')
 const formidable = require('formidable');
 const { Blob } = require("buffer");
+var fs = require('fs');
 let app = express()
-var jsonParser = bodyParser.json() // преобразование json -  строк
-app.use(express.json()) // использование json
+// var jsonParser = bodyParser.json() // преобразование json -  строк
+// app.use(express.json()) // использование json
+// app.use(express.urlencoded())
 app.use(express.static('pages')) //использование папки public, в котором хранятся html, css документы
 app.use(fileUpload())
 
@@ -17,22 +19,17 @@ let con = mysql.createConnection({ // подключение к базе дан�
     database: 'online_school'
 });
 
-app.use(express.json()) // использование json
 app.use(express.static('public')) //использование папки public, в котором хранятся html, css документы
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-}));
+// app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+//   extended: true
+// }));
+
+// app.use(bodyParser.json() );       // to support JSON-encoded bodies
 
 con.connect(function(err){ // попытка подключение к базе данных
     if(err) throw err
     console.log('Connected!')
 })
-
-app.use(bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-})); 
 
 // app.set('view engine', 'html') // работа с html через pug
 
@@ -47,7 +44,7 @@ app.get('/index.html', async function(req, res){
 app.post('/sentInfo', function(req, res){ // 
     infoUser = ''
     req.on('data', chunk =>{
-        infoUser = JSON.parse(chunk)
+        infoUser = chunk.toString()
     });
     req.on('end', () => {
         console.log(infoUser)
@@ -83,7 +80,7 @@ var id_gr
 app.post('/sendIdTeacher', function(req1, res1){ // принятие данных о пользователе при входе на сайт
     curUs = ''
     req1.on('data', chunk =>{
-        curUs += chunk.toString()
+        curUs = JSON.parse(chunk)
     });
     req1.on('end', () => {
         console.log(curUs)
@@ -91,12 +88,13 @@ app.post('/sendIdTeacher', function(req1, res1){ // принятие данны�
     res1.redirect(307, '/teacher_main.html')
     app.post('/teacher_main.html',(req2,res2)=>{
         con.query(
-            'select DISTINCT teacher.id_group, student.id, student.surname, number_class, exam_type from teacher inner join online_school.group on teacher.id_group=online_school.group.id_group inner join student on teacher.id_group=student.id_group inner join class on class.id=student.id_class inner join exam on exam.id=student.id_exam where teacher.id = '+curUs+';',
+            // 'select distinct student.id, online_school.group.id_group, student.surname, number_class, exam_type from teacher inner join online_school.group_number on teacher.id_group=group_number.id inner join online_school.group on group_number.id=online_school.group.id_group inner join student on online_school.group.id_student=student.id inner join class on class.id=student.id_class inner join exam on exam.id=student.id_exam where teacher.id = '+curUs+';',
+            'select distinct student.id, student.surname, number_class, exam_type from teacher_group inner join online_school.group_number on teacher_group.id_group=group_number.id  inner join online_school.group on group_number.id=online_school.group.id_group  inner join student on online_school.group.id_student=student.id inner join class on class.id=student.id_class inner join exam on exam.id=student.id_exam where teacher_group.id_teacher = '+curUs+';',
             async function(error, result){
                 if(error) throw error;
                 let ress = {}
                 for(let i = 0; i < result.length; i++){
-                    ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_group']} ${result[i]['surname']} ${result[i]['number_class']} ${result[i]['exam_type']}`
+                    ress[result[i]['id']] = `${result[i]['id']} ${result[i]['surname']} ${result[i]['number_class']} ${result[i]['exam_type']}`
                 }
                 console.log(ress)
                 res2.send(ress)
@@ -108,7 +106,7 @@ app.post('/sendIdTeacher', function(req1, res1){ // принятие данны�
 app.post('/sendIdStudent', function(req3, res3){ // принятие данных о пользователе при входе на сайт
     curUs = ''
     req3.on('data', chunk =>{
-        curUs += chunk.toString()
+        curUs = JSON.parse(chunk)
     });
     req3.on('end', () => {
         console.log(curUs)
@@ -133,7 +131,7 @@ app.post('/sendIdStudent', function(req3, res3){ // принятие данны�
 app.post('/sendIdGroups', function(req3, res3){ // принятие данных о пользователе при входе на сайт
     id_gr = ''
     req3.on('data', chunk =>{
-        id_gr += chunk.toString()
+        id_gr = JSON.parse(chunk)
     });
     req3.on('end', () => {
         console.log(id_gr)
@@ -141,7 +139,7 @@ app.post('/sendIdGroups', function(req3, res3){ // принятие данных
     res3.redirect(307, '/subject.html')
     app.post('/subject.html',(req4,res4)=>{
         con.query(
-            'select distinct timetable.id, timetable.time, timetable.id_group, timetable.lesson_topic, subject.subject from online_school.timetable inner join group_number on timetable.id_group = group_number.id inner join student_course on group_number.id= student_course.id_group inner join online_school.subject on student_course.id_subject = subject.id where timetable.id_group = '+id_gr+';',
+            'select distinct timetable.id, timetable.time, timetable.id_group, timetable.lesson_topic, subject.subject from online_school.timetable inner join group_number on timetable.id_group = group_number.id inner join student_course on group_number.id= student_course.id_group inner join online_school.subject on student_course.id_subject = subject.id where timetable.id_group = '+id_gr+' order by time asc;',
             async function(error, result){
                 if(error) throw error;
                 let ress = {}
@@ -202,14 +200,21 @@ app.post('/upload-avatar', async (req, res) => {
     if(avatar){
         console.log('ok')
         console.log(avatar.data)
+        console.log(avatar.name)
     } else{ console.log('no')}
     const buff = Buffer.from(avatar.data); // Node.js Buffer
-    const blob = new Blob([buff]); // JavaScript Blob
-    var query = "INSERT INTO online_school.new_table SET ?",
+    const blob = new Blob(buff); // JavaScript Blob !!
+    var query = "INSERT INTO online_school.student_assignments SET ?", 
+    // var query = "UPDATE online_school.timetable SET ?"
     values = {
-        id: 1,
-        data: buff.length,
-    };
+        id_student: 1,
+        id_lesson: 21,
+        classwork: '',
+        classwork_name_file: '',
+        homework: blob,
+        homework_name_file: avatar.name,
+        // file: buff.length,
+    }; 
     // con.query(
     //                 "INSERT INTO online_school.new_table(id, data) values(1, '"+buff+"')",
     //                 async function(error, result){
@@ -249,4 +254,246 @@ app.post('/upload-avatar', async (req, res) => {
     // }
 })
 
+// app.post('/sendWork', function(req3, res3){ // принятие данных о пользователе при входе на сайт
+//     var id_1 = ''
+//     req3.on('data', chunk =>{
+//         id_1 += chunk.toString()
+//     });
+//     req3.on('end', () => {
+//         console.log(id_1)
+//     })
+//     res3.redirect(307, '/files_page.html')
+//     app.post('/files_page.html',(req4,res4)=>{
+//         con.query(
+//             'select * from online_school.timetable where id = 21',
+//             async function(error, result){
+//                 if(error) throw error;
+//                 let ress = {}
+//                 for(let i = 0; i < result.length; i++){
+//                     var buffer = Buffer.from(result[i]['file'], 'binary' );
+//                     var bufferBase64 = buffer.toString('base64');
+//                     ress[result[i]['id']] = `${result[i]['id']} ${result[i]['time']} ${result[i]['id_group']} ${result[i]['lesson_topic']}`
+//                     ress['file'] = bufferBase64
+//                     console.log(bufferBase64)
+//                 }
+//                 console.log(ress)
+//                 res4.send(ress)
+//             }
+//         )
+//     })
+// })
 
+
+// app.post('/sendWork', function(req3, res3){ // принятие данных о пользователе при входе на сайт
+//     var par = JSON.parse(req3.body)
+//     console.log(par)
+//     res3.redirect(307, '/files_page.html')
+//     // app.post('/files_page.html',(req4,res4)=>{
+//     //     con.query(
+//     //         'select * from online_school.student_assignments where id_student = '+curUs+' and id_lesson='+id_g+'',
+//     //         async function(error, result){
+//     //             if(error) throw error;
+//     //             let ress = {}
+//     //             for(let i = 0; i < result.length; i++){
+//     //                 ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_student']} ${result[i]['id_lesson']} ${result[i]['homework_name_file']} ${result[i]['classwork_name_file']}`
+//     //                 ress['name_lesson'] = id_les
+//     //             }
+//     //             console.log(ress)
+//     //             res4.send(ress)
+//     //         }
+//     //     )
+//     // })
+// })
+
+
+// app.post('/sendWork', jsonParser, function(req3, res3){ // принятие данных о пользователе при входе на сайт
+//     var gg = req3.body
+//     console.log(gg)
+//     // res3.redirect(307, '/files_page.html')
+//     // app.post('/files_page.html',(req4,res4)=>{
+//     //     con.query(
+//     //         'select * from online_school.timetable where id = 21',
+//     //         async function(error, result){
+//     //             if(error) throw error;
+//     //             let ress = {}
+//     //             for(let i = 0; i < result.length; i++){
+//     //                 var buffer = Buffer.from(result[i]['file'], 'binary' );
+//     //                 var bufferBase64 = buffer.toString('base64');
+//     //                 ress[result[i]['id']] = `${result[i]['id']} ${result[i]['time']} ${result[i]['id_group']} ${result[i]['lesson_topic']}`
+//     //                 ress['file'] = bufferBase64
+//     //                 console.log(bufferBase64)
+//     //             }
+//     //             console.log(ress)
+//     //             res4.send(ress)
+//     //         }
+//     //     )
+//     // })
+// })
+
+var id_les
+var name_lesson
+app.post('/sendInfo', function(req22, res22){
+    var po3 = ''
+    req22.on('data', chunk =>{
+        po3 = JSON.parse(chunk)
+        id_les = po3.id_group
+        name_lesson = po3.lesson
+    });
+    req22.on('end', () => {
+        console.log(po3)
+        // console.log(id_les)
+        // console.log(name_lesson)
+    })
+    res22.redirect(307, '/files_page.html')
+    app.post('/files_page.html',(req4,res4)=>{
+            con.query(
+            'select * from online_school.student_assignments where id_student = '+curUs+' and id_lesson='+id_les+'',
+            async function(error, result){
+                if(error) throw error;
+                let ress = {}
+                for(let i = 0; i < result.length; i++){
+                    ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_student']} ${result[i]['id_lesson']} ${result[i]['homework_name_file']} ${result[i]['classwork_name_file']}`
+                }
+                ress['name_lesson'] = name_lesson
+                console.log(ress)
+                res4.send(ress)
+            }
+        )
+    })
+})
+
+
+app.post('/upload-avatar1', async (req, res) => {
+    let avatar = req.files.ava
+    if(avatar){
+        console.log('ok')
+        console.log(avatar.data)
+        console.log(avatar.name)
+    } else{ console.log('no')}
+    const buff = Buffer.from(avatar.data); // Node.js Buffer
+    const blob = new Blob(buff); // JavaScript Blob !!
+    var query = 'INSERT INTO online_school.student_assignments SET ?', 
+    // var query = "UPDATE online_school.timetable SET ?"
+    values = {
+        id_student: curUs,
+        id_lesson: Number(id_les),
+        classwork: blob,
+        classwork_name_file: avatar.name,
+        // homework: '',
+        // homework_name_file: '',
+    }; 
+    con.query(query, values, async function(error, result){
+        if(error) throw error;
+            res.send('ok')
+    })
+
+})
+
+app.post('/upload-avatar2', async (req, res) => {
+    let avatar = req.files.avatar
+    if(avatar){
+        console.log('ok')
+        console.log(avatar.data)
+        console.log(avatar.name)
+    } else{ console.log('no')}
+    const buff = Buffer.from(avatar.data); // Node.js Buffer
+    const blob = new Blob(buff); // JavaScript Blob !!
+    var query = `INSERT INTO online_school.student_assignments SET ?`, 
+    // var query = "UPDATE online_school.timetable SET ?"
+    values = {
+        id_student: curUs,
+        id_lesson: Number(id_les),
+        // classwork: '',
+        // classwork_name_file: '',
+        homework: blob,
+        homework_name_file: avatar.name,
+    }; 
+    con.query(query, values, async function(error, result){
+        if(error) throw error;
+            res.send('ok')})
+})
+
+
+var curStud
+var id_gr_stud
+app.post('/sendIdGroupStud', function(req3, res3){ // принятие данных о пользователе при входе на сайт
+    curStud = ''
+    req3.on('data', chunk =>{
+        curStud = JSON.parse(chunk)
+    });
+    req3.on('end', () => {
+        console.log(curStud)
+    })
+    res3.redirect(307, '/teacher_check_stud_main.html')
+    app.post('/teacher_check_stud_main.html',(req4,res4)=>{
+        con.query(
+            'select student_course.id, student_course.id_student, surname,  subject.subject, student_course.id_group from online_school.student_course inner join subject on student_course.id_subject = subject.id inner join student on student_course.id_student = student.id inner join group_number on group_number.id = student_course.id_group where student_course.id_student = '+curStud+';',
+            async function(error, result){
+                if(error) throw error;
+                let ress = {}
+                for(let i = 0; i < result.length; i++){
+                    ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_student']} ${result[i]['surname']} ${result[i]['subject']} ${result[i]['id_group']}`
+                }
+                console.log(ress)
+                res4.send(ress)
+            }
+        )
+    })
+})
+
+app.post('/sendIdGroupsStudSub', function(req3, res3){ // принятие данных о пользователе при входе на сайт
+    id_gr_stud = ''
+    req3.on('data', chunk =>{
+        id_gr_stud = JSON.parse(chunk)
+    });
+    req3.on('end', () => {
+        console.log(id_gr_stud)
+    })
+    res3.redirect(307, '/teacher_check_subject.html')
+    app.post('/teacher_check_subject.html',(req4,res4)=>{
+        con.query(
+            'select distinct timetable.id, timetable.time, timetable.id_group, timetable.lesson_topic, subject.subject from online_school.timetable inner join group_number on timetable.id_group = group_number.id inner join student_course on group_number.id= student_course.id_group inner join online_school.subject on student_course.id_subject = subject.id where timetable.id_group = '+id_gr_stud+' order by time asc;',
+            async function(error, result){
+                if(error) throw error;
+                let ress = {}
+                for(let i = 0; i < result.length; i++){
+                    ress[result[i]['id']] = `${result[i]['id']} ${result[i]['time']} ${result[i]['id_group']} ${result[i]['subject']} ${result[i]['lesson_topic']}`
+                }
+                console.log(ress)
+                res4.send(ress)
+            }
+        )
+    })
+})
+
+var id_les_teach
+var name_lesson_teach
+app.post('/sendInfoStudent', function(req22, res22){
+    var po4 = ''
+    req22.on('data', chunk =>{
+        po4 = JSON.parse(chunk)
+        id_les_teach = po4.id_group
+        name_lesson_teach = po4.lesson
+    });
+    req22.on('end', () => {
+        console.log(po4)
+        // console.log(id_les)
+        // console.log(name_lesson)
+    })
+    res22.redirect(307, '/teacher_check_files.html')
+    app.post('/teacher_check_files.html',(req4,res4)=>{
+            con.query(
+            'select * from online_school.student_assignments where id_student = '+curStud+' and id_lesson='+id_les_teach+'',
+            async function(error, result){
+                if(error) throw error;
+                let ress = {}
+                for(let i = 0; i < result.length; i++){
+                    ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_student']} ${result[i]['id_lesson']} ${result[i]['homework_name_file']} ${result[i]['classwork_name_file']}`
+                }
+                ress['name_lesson'] = name_lesson_teach
+                console.log(ress)
+                res4.send(ress)
+            }
+        )
+    })
+})
