@@ -12,49 +12,53 @@ const p = new Promise((resolve, reject) =>{ // промис на прочиты�
 
 async function proc(data){ // функция для парсинга данных
     console.log(data)
-    // const p = JSON.parse(data)
-    // console.log(p)
-    var masData = data.split('",')
+    var masData = data.split(',')
     var masOfMas = []
     for(let i = 0; i < masData.length - 4; i++){
-        var masElem = masData[i].split(' ')
+        var masElem = masData[i].split('%')
+        if(masElem[0] !== "null"){
+            masElem[0] = masElem[0].split('"')[3]
+            name_file_class = masElem[0].split('/')
+            name_file_class = name_file_class[name_file_class.length - 1]
+            masElem.splice(2, 0 , name_file_class)
+        }
+        if (masElem[0] === 'null') {
+            masElem[1] = masElem[1].replace('"', '')
+            name_file_home = masElem[1].split('/')
+            name_file_home = name_file_home[name_file_home.length - 1]
+            masElem.splice(2, 0 , name_file_home)
+        } 
         masOfMas.push(masElem)
     }
     console.log(masOfMas)
     current_lesson = masData[masData.length - 1].split('"')
-    console.log(current_lesson[3])
+    // console.log(current_lesson[3])
 
     get_mas()
 
     function get_mas(){
         var file_class = document.querySelector('.classroom')
         var file_home = document.querySelector('.homework')
-        file_class.innerHTML = ''
+        // file_class.innerHTML = ''
         file_home.innerHTML = ''
             for(let i = 0; i < masOfMas.length; i++){
-            if(masOfMas[i][4] != 'null'){
-                var push_file = `<div class="file_class">${masOfMas[i][4]}</div>`
+            if(masOfMas[i][0] != 'null'){
+                var push_file = `<div class="file_class"><a id="test_a" href="${masOfMas[i][0]}" download>${masOfMas[i][2]}</a><button class="btn" id="test_btn"></button></div>`
                 file_class.innerHTML += push_file
             } else {
-                var push_file_h = `<div class="file_home">${masOfMas[i][3]}</div>`
+                var push_file_h = `<div class="file_home"><a id="test_a" href="${masOfMas[i][1]}" download>${masOfMas[i][2]}</a><button class="btn" id="test_btn"></button></div>`
                 file_home.innerHTML += push_file_h
             }
         }
     }
 
-    var text_id = masData[masData.length - 4].split(':')[1].slice(1)
+    var text_id = masData[masData.length - 4].split(':')[1].slice(1).replaceAll('"', '')
 
     var homework_text = document.getElementById('homeInfo')
-    var textHH = masData[masData.length - 3].split(':')[1].slice(1)
-    console.log(textHH)
-    var textH = textHH.replace("\n", " ")
-    if(textH !== 'null') homework_text.innerHTML += textH
-
+    homework_text.innerHTML += masData[masData.length - 3].split(":")[1].replaceAll('"', '')
 
     var classwork_text = document.getElementById('classInfo')
-    var textCC = masData[masData.length - 2].split(':')[1].slice(1)
-    var textC = textCC.replace("\n", " ")
-    if(textC !== 'null') classwork_text.innerHTML = textC
+    classwork_text.innerHTML = masData[masData.length - 2].split(":")[1].replaceAll('"', '')
 
 
     var sub = document.querySelector('.lesson')
@@ -68,7 +72,6 @@ async function proc(data){ // функция для парсинга данны�
         const files = input.files
         for (var i = 0; i < files.length; i++) {
             uploadFile(files[i]);
-
         }
     })
 
@@ -83,7 +86,8 @@ async function proc(data){ // функция для парсинга данны�
         })              
         .then(res => {
             alert('Классная работа отправлена!')
-            masOfMas.push(['','','', '', file.name])
+            const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files/' + file.name
+            masOfMas.push([p,'','', file.name])
             get_mas()
         } )
         // res.json())
@@ -114,28 +118,53 @@ async function proc(data){ // функция для парсинга данны�
         })     
         .then(res => {
             alert('Домашняя работа отправлена!')
-            masOfMas.push(['','','', file.name, ''])
+            const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files/' + file.name
+            masOfMas.push(['null', p , file.name, 'null'])
             get_mas()
         })         
         .then(json => console.log(json))
         .catch(err => console.error(err))
         }
 
-        // let info = {
-        //     id_group: masOfMas[0][2],
-        //     lesson: current_lesson[3]
-        // }
 
-        // // отсылка данных на сервер
-        // fetch('/sendInfo', {
+    // document.getElementsByClassName('btn').addEventListener("click",function() {
+    //     href = document.getElementById('test_a').getAttribute('href');    
+    //     console.log(href)
+    // })
+    // document.querySelector('btn').addEventListener("click",function(){
+    //     console.log(document.getElementById('test_a').getAttribute('href'))
+    // })
+    // document.querySelector('.btn').addEventListener
+
+    document.querySelector('.classroom').onclick = function(e) {
+        const btn = e.target.closest('.btn');
+        if (!btn) {
+          return;
+        }
+        href = document.getElementById('test_a').getAttribute('href');
+        console.log(href)
+        // fetch('/delete_class', {
         //     method: 'POST',
-        //     body: JSON.stringify(info),
-        //     headers: {
-        //         'Accept' : 'application/json',
-        //         'Content-Type': 'application/json'
-        //         // x-www-form-urlencoded
-        //     }
-        // })
+        //     body: href
+        // })     
+        btn.parentElement.remove();
+        btn.closest('div').remove();
+      }
+
+    document.querySelector('.homework').onclick = function(e) {
+      const btn = e.target.closest('.btn');
+      if (!btn) {
+        return;
+      }
+      href = document.getElementById('test_a').getAttribute('href');
+      console.log(href)
+    //   fetch('/delete_home', {
+    //       method: 'POST',
+    //       body: href
+    //   })     
+      btn.parentElement.remove();
+      btn.closest('div').remove();
+    }
 }
 
 request.send()

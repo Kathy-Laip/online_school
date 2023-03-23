@@ -4,6 +4,7 @@ const fileUpload = require('express-fileupload')
 const formidable = require('formidable');
 const { Blob } = require("buffer");
 var fs = require('fs');
+var path = require('path')
 let app = express()
 // var jsonParser = bodyParser.json() // преобразование json -  строк
 // app.use(express.json()) // использование json
@@ -352,11 +353,11 @@ app.post('/sendInfo', function(req22, res22){
                 if(error) throw error;
                 let ress = {}
                 for(let i = 0; i < result.length; i++){
-                    ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_student']} ${result[i]['id_lesson']} ${result[i]['homework_name_file']} ${result[i]['classwork_name_file']}`
+                    ress[result[i]['id']] = `${result[i]['classwork']}%${result[i]['homework']}`
                 }
                 ress['text_id'] = `${result[0]['id']}`
-                ress['homework_text'] = `${result[0]['homework_text']}`
-                ress['classwork_text'] = `${result[0]['classwork_text']}`
+                ress['homework_text'] = fs.readFileSync(`${result[0]['homework_text']}`).toString('utf-8')
+                ress['classwork_text'] = fs.readFileSync(`${result[0]['classwork_text']}`).toString('utf-8')
                 ress['name_lesson'] = name_lesson
                 console.log(ress)
                 res4.send(ress)
@@ -366,27 +367,28 @@ app.post('/sendInfo', function(req22, res22){
 })
 
 
-
-
-
 app.post('/upload-avatar1', async (req, res) => {
     let avatar = req.files.ava
     if(avatar){
         console.log('ok')
-        console.log(avatar.data)
-        console.log(avatar.name)
+        name_file = avatar.name
+        f = avatar.data
     } else{ console.log('no')}
-    const buff = Buffer.from(avatar.data); // Node.js Buffer
-    const blob = new Blob(buff); // JavaScript Blob !!
+    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    var pathp = path.join(p, '/', name_file)
+    try{
+        var d = fs.writeFileSync(pathp, f)
+    }
+    catch(err){
+        console.error(err)
+    }
     var query = 'INSERT INTO online_school.student_assignments SET ?', 
     // var query = "UPDATE online_school.timetable SET ?"
     values = {
         id_student: curUs,
         id_lesson: Number(id_les),
-        classwork: blob,
-        classwork_name_file: avatar.name,
-        // homework: '',
-        // homework_name_file: '',
+        classwork: pathp,
+        classwork_name_file: name_file,
     }; 
     con.query(query, values, async function(error, result){
         if(error) throw error;
@@ -399,19 +401,23 @@ app.post('/upload-avatar2', async (req, res) => {
     let avatar = req.files.avatar
     if(avatar){
         console.log('ok')
-        console.log(avatar.data)
-        console.log(avatar.name)
+        name_file = avatar.name
+        f = avatar.data
     } else{ console.log('no')}
-    const buff = Buffer.from(avatar.data); // Node.js Buffer
-    const blob = new Blob(buff); // JavaScript Blob !!
+    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    var pathp = path.join(p, '/', name_file)
+    try{
+        var d = fs.writeFileSync(pathp, f)
+    }
+    catch(err){
+        console.error(err)
+    }
     var query = `INSERT INTO online_school.student_assignments SET ?`, 
     // var query = "UPDATE online_school.timetable SET ?"
     values = {
         id_student: curUs,
         id_lesson: Number(id_les),
-        // classwork: '',
-        // classwork_name_file: '',
-        homework: blob,
+        homework: pathp,
         homework_name_file: avatar.name,
     }; 
     con.query(query, values, async function(error, result){
@@ -494,11 +500,11 @@ app.post('/sendInfoStudent', function(req22, res22){
                 if(error) throw error;
                 let ress = {}
                 for(let i = 0; i < result.length; i++){
-                    ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_student']} ${result[i]['id_lesson']} ${result[i]['homework_name_file']} ${result[i]['classwork_name_file']}`
+                    ress[result[i]['id']] = ress[result[i]['id']] = `${result[i]['classwork']}%${result[i]['homework']}`
                 }
                 ress['text_id'] = `${result[0]['id']}`
-                ress['homework_text'] = `${result[0]['homework_text']}`
-                ress['classwork_text'] = `${result[0]['classwork_text']}`
+                ress['homework_text'] = fs.readFileSync(`${result[0]['homework_text']}`).toString('utf-8')
+                ress['classwork_text'] = fs.readFileSync(`${result[0]['classwork_text']}`).toString('utf-8')
                 ress['name_lesson'] = name_lesson_teach
                 console.log(ress)
                 res4.send(ress)
@@ -510,17 +516,28 @@ app.post('/sendInfoStudent', function(req22, res22){
 
 var t
 var id_text
+var id_t 
+var pathp
 app.post('/updateSave', function(req22, res22){
     var po4 = ''
     req22.on('data', chunk =>{
         po4 = JSON.parse(chunk)
         t = po4.text
-        id_text = po4.id
+        id_text = po4.id + 'home.docx'
+        id_t = po4.id 
+        const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+        pathp = path.join(p, '/', id_text)
+        try{
+            var d = fs.writeFileSync(pathp, t)
+        }
+        catch(err){
+            console.error(err)
+        }
     });
     req22.on('end', () => {
         console.log(po4)
         con.query(
-            'UPDATE online_school.student_assignments SET homework_text = "'+t+'" WHERE student_assignments.id = '+id_text+'',
+            'UPDATE online_school.student_assignments SET homework_text = "'+pathp+'" WHERE student_assignments.id = '+id_t+'',
             async function(error, result){
                 if(error) throw error;
                 console.log('text!')
@@ -532,21 +549,79 @@ app.post('/updateSave', function(req22, res22){
 
 var tt
 var id_textt
+var id_tt
 app.post('/updateSaveClass', function(req22, res22){
     var po4 = ''
     req22.on('data', chunk =>{
         po4 = JSON.parse(chunk)
         tt = po4.text
-        id_textt = po4.id
+        id_textt = po4.id + 'class.docx'
+        id_tt = po4.id
+        const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+        pathp = path.join(p, '/', id_textt)
+        try{
+            var d = fs.writeFileSync(pathp, tt)
+        }
+        catch(err){
+            console.error(err)
+        }
     });
     req22.on('end', () => {
         console.log(po4)
         con.query(
-            'UPDATE online_school.student_assignments SET classwork_text = "'+tt+'" WHERE student_assignments.id = '+id_textt+'',
+            'UPDATE online_school.student_assignments SET classwork_text = "'+pathp+'" WHERE student_assignments.id = '+id_tt+'',
             async function(error, result){
                 if(error) throw error;
                 console.log('text!')
                 res22.send('ok')
+            }
+        )
+    })
+})
+
+app.post('/up', function(req,res){
+    let a = req.files.avatar
+    if(a){
+        console.log('ok')
+        name_file = a.name
+        f = a.data
+    } else{ console.log('no')}
+    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    var pathp = path.join(p, '/', name_file)
+    try{
+        var d = fs.writeFileSync(pathp, f)
+    }
+    catch(err){
+        console.error(err)
+    }
+
+})
+
+var file_delete_path
+app.post('/delete_class', function(req,res){
+    req.on('data', chunk =>{
+        file_delete_path = chunk.toString()})
+    req.on('end', () => {
+        fs.unlinkSync(file_delete_path);
+        con.query(
+            'delete from online_school.student_assignments WHERE student_assignments.classwork = '+file_delete_path+'',
+            async function(error, result){
+                if(error) throw error;
+            }
+        )
+    })
+})
+
+var file_delete_path2
+app.post('/delete_home', function(req,res){
+    req.on('data', chunk =>{
+        file_delete_path2 = chunk.toString()})
+    req.on('end', () => {
+        fs.unlinkSync(file_delete_path2);
+        con.query(
+            'delete from online_school.student_assignments WHERE student_assignments.classwork = '+file_delete_path2+'',
+            async function(error, result){
+                if(error) throw error;
             }
         )
     })

@@ -135,3 +135,17 @@
     text-align: left;
     border-radius: 1px solid var(--black);
 }
+
+.btn{
+    position: absolute;
+    font-size: 20px;
+    text-align: center;
+    content: "\00d7";
+    right: 5%;
+    width: 5%;
+    height: 20%;
+    background-color: #ccc;
+    opacity: 80%;
+    border: none;
+    color: var(--black);
+}
