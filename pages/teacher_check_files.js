@@ -14,7 +14,7 @@ async function proc(data){ // функция для парсинга данны�
     console.log(data)
     var masData = data.split('",')
     var masOfMas = []
-    for(let i = 0; i < masData.length - 1; i++){
+    for(let i = 0; i < masData.length - 4; i++){
         var masElem = masData[i].split(' ')
         masOfMas.push(masElem)
     }
@@ -39,6 +39,48 @@ async function proc(data){ // функция для парсинга данны�
             }
         }
     }
+
+    var text_id = masData[masData.length - 4].split(':')[1].slice(1)
+
+    var homework_text = document.getElementById('homeInfo')
+    var textHH = masData[masData.length - 3].split(':')[1].slice(1)
+    console.log(textHH)
+    var textH = textHH.replace("\n", " ")
+    if(textH !== 'null') homework_text.innerHTML += textH
+
+
+    var classwork_text = document.getElementById('classInfo')
+    var textCC = masData[masData.length - 2].split(':')[1].slice(1)
+    var textC = textCC.replace("\n", " ")
+    if(textC !== 'null') classwork_text.innerHTML = textC
+
+
+    var btnSaveHome = document.getElementById('homeSaveInfo')
+    btnSaveHome.addEventListener('click', () => {
+        let update = {
+            text: homework_text.value,
+            id: text_id
+        }
+        fetch('/updateSave', {
+            method: 'POST',
+            body: JSON.stringify(update)
+        })  
+        .then(res => alert('Сохранено!'))
+    })
+
+    var btnSaveClass = document.getElementById('classSaveInfo')
+    btnSaveClass.addEventListener('click', () => {
+        let update = {
+            text: classwork_text.value,
+            id: text_id
+        }
+        fetch('/updateSaveClass', {
+            method: 'POST',
+            body: JSON.stringify(update)
+        })  
+        .then(res => alert('Сохранено!'))
+    })
+
 
     var sub = document.querySelector('.lesson')
     sub.innerHTML = current_lesson[3]

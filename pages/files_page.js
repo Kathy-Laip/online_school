@@ -12,9 +12,11 @@ const p = new Promise((resolve, reject) =>{ // промис на прочиты�
 
 async function proc(data){ // функция для парсинга данных
     console.log(data)
+    // const p = JSON.parse(data)
+    // console.log(p)
     var masData = data.split('",')
     var masOfMas = []
-    for(let i = 0; i < masData.length - 1; i++){
+    for(let i = 0; i < masData.length - 4; i++){
         var masElem = masData[i].split(' ')
         masOfMas.push(masElem)
     }
@@ -39,6 +41,21 @@ async function proc(data){ // функция для парсинга данны�
             }
         }
     }
+
+    var text_id = masData[masData.length - 4].split(':')[1].slice(1)
+
+    var homework_text = document.getElementById('homeInfo')
+    var textHH = masData[masData.length - 3].split(':')[1].slice(1)
+    console.log(textHH)
+    var textH = textHH.replace("\n", " ")
+    if(textH !== 'null') homework_text.innerHTML += textH
+
+
+    var classwork_text = document.getElementById('classInfo')
+    var textCC = masData[masData.length - 2].split(':')[1].slice(1)
+    var textC = textCC.replace("\n", " ")
+    if(textC !== 'null') classwork_text.innerHTML = textC
+
 
     var sub = document.querySelector('.lesson')
     sub.innerHTML = current_lesson[3]
@@ -120,4 +137,5 @@ async function proc(data){ // функция для парсинга данны�
         //     }
         // })
 }
+
 request.send()

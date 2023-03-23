@@ -142,10 +142,14 @@ async function proc(data){ // функция для парсинга данны�
             lesson: innerBtn
         }
 
-        sentWork()
+        let info_text = {
+            id_groupp: id_gg
+        }
+
+        sentInfo()
 
         // отсылка данных на сервер
-        function sentWork(){
+        function sentInfo(){
             fetch('/sendInfo', {
                 method: 'POST',
                 body: JSON.stringify(info),

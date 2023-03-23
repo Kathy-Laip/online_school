@@ -20,14 +20,50 @@
     font-size: 36px;
 }
 
-.classroom{
+#classInfo{
     position: absolute;
     top: 35%;
     left: 10%;
     width: 35%;
-    height: 55%;
+    height: 25%;
     overflow-y: scroll;
     border: 1px solid var(--black);
+}
+
+#classSaveInfo{
+    position: absolute;
+    top: 62%;
+    left: 37%;
+    width: 8%;
+    height: 5%;
+}
+
+.classroom{
+    position: absolute;
+    top: 70%;
+    left: 10%;
+    width: 35%;
+    height: 20%;
+    overflow-y: scroll;
+    border: 1px solid var(--black);
+}
+
+#homeInfo{
+    position: absolute;
+    top: 35%;
+    left: 55%;
+    width: 35%;
+    height: 25%;
+    overflow-y: scroll;
+    border: 1px solid var(--black);
+}
+
+#homeSaveInfo{
+    position: absolute;
+    top: 62%;
+    left: 82%;
+    width: 8%;
+    height: 5%;
 }
 
 .home{
@@ -39,10 +75,10 @@
 
 .homework{
     position: absolute;
-    top: 35%;
+    top: 70%;
     left: 55%;
     width: 35%;
-    height: 55%;
+    height: 20%;
     overflow-y: scroll;
     border: 1px solid var(--black);
 }

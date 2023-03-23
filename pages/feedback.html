@@ -10,66 +10,6 @@
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="vill.php">
     <title>Feedback</title>
-    <style>
-        .bp_post {
-            color:#363636;
-            padding: 15px 0;
-            margin-top: -1px;
-            border: solid #e7e8ec;
-            border-width: 1px 0;
-        }
-        .bp_thumb {
-            float: left;
-        }
-        .bp_thumb, .bp_img {
-            width: 50px;
-            height: 50px;
-        }
-        .bp_img {
-            border-radius: 50%;
-            overflow: hidden;
-        }
-        .bp_info {
-            margin-left: 62px;
-        }
-        .bp_author_wrap {
-            line-height: 16px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .bp_author {
-            font-weight: 700;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            color: #42648b;
-        }
-        a.bp_date {
-            color: #939393;
-            font-size:11px;
-            
-        }
-        a.img.imgvk, img.imgvk {
-            height:150px;
-            margin:5px;    
-        }
-        
-    @media only screen and (max-width: 479px) {
-        a.img.imgvk, img.imgvk {
-            max-height:90px;
-            max-width:120px;
-            margin:3px;    
-        }
-        
-        .bp_thumb, .bp_img {
-            width: 40px;
-            height: 40px;
-        } 
-        .bp_info {
-            margin-left: 50px;
-        }    
-    }
-    </style>
 </head>
 <body>
     <div class="header1">
@@ -104,27 +44,5 @@
         <!-- <button class="vk"><a href="https://vk.com/cerebrum_school" target="_blank"></a></button> -->
         <div class="number text">8 (800) 555-35-35</div>
     </div>
-
-    <!-- <script type="text/javascript">
-        request = new XMLHttpRequest()
-        request.open('POST','https://api.vk.com/board.getComments?group_id=148573245?topic_id=48845168?need_likes=1?count=10?extended=1?sort=desc/?&access_token=&v=', true)
-        const pic = new Promise((resolve, reject) => {
-            request.onload = function(){
-                var dataFromDBOne = request.responseText;
-                resolve(dataFromDBOne)
-                if(dataFromDBOne === ''){
-                    reject("")
-                }
-            }
-        })
-        .then(dt => {
-            get_data(dt)
-        })
-        .catch(err =>{console.log('err')})
-
-        async function get_data(data){
-            console.log(data)
-        }
-    </script> -->
 </body>
 </html>

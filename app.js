@@ -354,6 +354,9 @@ app.post('/sendInfo', function(req22, res22){
                 for(let i = 0; i < result.length; i++){
                     ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_student']} ${result[i]['id_lesson']} ${result[i]['homework_name_file']} ${result[i]['classwork_name_file']}`
                 }
+                ress['text_id'] = `${result[0]['id']}`
+                ress['homework_text'] = `${result[0]['homework_text']}`
+                ress['classwork_text'] = `${result[0]['classwork_text']}`
                 ress['name_lesson'] = name_lesson
                 console.log(ress)
                 res4.send(ress)
@@ -361,6 +364,9 @@ app.post('/sendInfo', function(req22, res22){
         )
     })
 })
+
+
+
 
 
 app.post('/upload-avatar1', async (req, res) => {
@@ -490,9 +496,57 @@ app.post('/sendInfoStudent', function(req22, res22){
                 for(let i = 0; i < result.length; i++){
                     ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_student']} ${result[i]['id_lesson']} ${result[i]['homework_name_file']} ${result[i]['classwork_name_file']}`
                 }
+                ress['text_id'] = `${result[0]['id']}`
+                ress['homework_text'] = `${result[0]['homework_text']}`
+                ress['classwork_text'] = `${result[0]['classwork_text']}`
                 ress['name_lesson'] = name_lesson_teach
                 console.log(ress)
                 res4.send(ress)
+            }
+        )
+    })
+})
+
+
+var t
+var id_text
+app.post('/updateSave', function(req22, res22){
+    var po4 = ''
+    req22.on('data', chunk =>{
+        po4 = JSON.parse(chunk)
+        t = po4.text
+        id_text = po4.id
+    });
+    req22.on('end', () => {
+        console.log(po4)
+        con.query(
+            'UPDATE online_school.student_assignments SET homework_text = "'+t+'" WHERE student_assignments.id = '+id_text+'',
+            async function(error, result){
+                if(error) throw error;
+                console.log('text!')
+                res22.send('ok')
+            }
+        )
+    })
+})
+
+var tt
+var id_textt
+app.post('/updateSaveClass', function(req22, res22){
+    var po4 = ''
+    req22.on('data', chunk =>{
+        po4 = JSON.parse(chunk)
+        tt = po4.text
+        id_textt = po4.id
+    });
+    req22.on('end', () => {
+        console.log(po4)
+        con.query(
+            'UPDATE online_school.student_assignments SET classwork_text = "'+tt+'" WHERE student_assignments.id = '+id_textt+'',
+            async function(error, result){
+                if(error) throw error;
+                console.log('text!')
+                res22.send('ok')
             }
         )
     })
