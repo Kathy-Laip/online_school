@@ -45,7 +45,7 @@ async function proc(data){ // функция для парсинга данны�
             if(masOfMas[i][0] != 'null'){
                 var push_file = `<div class="file_class"><a href="${masOfMas[i][0]}" download>${masOfMas[i][2]}</a></div>`
                 file_class.innerHTML += push_file
-            } else {
+            } else if (masOfMas[i][1] != "null"){
                 var push_file_h = `<div class="file_class"><a href="${masOfMas[i][1]}" download>${masOfMas[i][2]}</a></div>`
                 file_home.innerHTML += push_file_h
             }

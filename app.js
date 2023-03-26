@@ -42,13 +42,13 @@ app.get('/index.html', async function(req, res){
     res.sendFile('index.html', {root : __dirname + '/pages'}) // отсылка html страниц
 });
 
+
 app.post('/sentInfo', function(req, res){ // 
     infoUser = ''
     req.on('data', chunk =>{
         infoUser = chunk.toString()
     });
     req.on('end', () => {
-        console.log(infoUser)
         con.query(
             `INSERT INTO online_school.record(surname, subject, number_phone, email) VALUES ('${infoUser.sur}', '${infoUser.subjects}', '${infoUser.phone}','${infoUser.em}')`,
             async function(error, result){
@@ -153,183 +153,6 @@ app.post('/sendIdGroups', function(req3, res3){ // принятие данных
         )
     })
 })
-
-// var d
-// app.post('/getfiles', function(req, res){
-//     // req.on('data', chunk =>{
-//     //     d = chunk
-//     //     console.log(d)
-//     // });
-//     // req.on('end', () => {
-//     //     console.log(d)
-//     //     con.query(
-//     //         `INSERT INTO online_school.new_table(id, data) values(1, LOAD_FILE('${d}'))`,
-//     //         async function(error, result){
-//     //             if(error) throw error;
-//     //             console.log('ok')
-//     //         }
-//     //     )
-//     // })
-//     var r = req.files.
-//     console.log(r)
-//            con.query(
-//             `INSERT INTO online_school.new_table(id, data) values(1, LOAD_FILE('${r}'))`,
-//             async function(error, result){
-//                 if(error) throw error;
-//                 console.log('ok')
-//             }
-//         )
-// })
-
-// app.post('/upload', function(req, res) {
-//     const form = new formidable.IncomingForm();
-//     // Parse `req` and upload all associated files
-//     form.parse(req, function(err, fields, files) {
-//       if (err) {
-//         return res.status(400).json({ error: err.message });
-//       }
-//       const [firstFileName] = Object.keys(files);
-  
-//       res.json({ filename: firstFileName });
-//     });
-//     console.log('ok')
-//   });
-
-
-app.post('/upload-avatar', async (req, res) => {
-    let avatar = req.files.avatar
-    if(avatar){
-        console.log('ok')
-        console.log(avatar.data)
-        console.log(avatar.name)
-    } else{ console.log('no')}
-    const buff = Buffer.from(avatar.data); // Node.js Buffer
-    const blob = new Blob(buff); // JavaScript Blob !!
-    var query = "INSERT INTO online_school.student_assignments SET ?", 
-    // var query = "UPDATE online_school.timetable SET ?"
-    values = {
-        id_student: 1,
-        id_lesson: 21,
-        classwork: '',
-        classwork_name_file: '',
-        homework: blob,
-        homework_name_file: avatar.name,
-        // file: buff.length,
-    }; 
-    // con.query(
-    //                 "INSERT INTO online_school.new_table(id, data) values(1, '"+buff+"')",
-    //                 async function(error, result){
-    //                     if(error) throw error;
-    //                     console.log('ok')
-    //                 })
-    con.query(query, values, async function(error, result){
-                            if(error) throw error;
-                            console.log('ok')})
-    // try {
-    //   if (!req.files) {
-    //     res.send({
-    //       status: false,
-    //       message: 'No file uploaded'
-    //     })
-    //   } else {
-    //     // Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-    //     let avatar = req.files.avatar
-    //     console.log('ok')
-  
-    //     // Use the mv() method to place the file in the upload directory (i.e. "uploads")
-    //     avatar.mv('./uploads/' + avatar.name)
-  
-    //     //send response
-    //     res.send({
-    //       status: true,
-    //       message: 'File is uploaded',
-    //       data: {
-    //         name: avatar.name,
-    //         mimetype: avatar.mimetype,
-    //         size: avatar.size
-    //       }
-    //     })
-    //   }
-    // } catch (err) {
-    //   res.status(500).send(err)
-    // }
-})
-
-// app.post('/sendWork', function(req3, res3){ // принятие данных о пользователе при входе на сайт
-//     var id_1 = ''
-//     req3.on('data', chunk =>{
-//         id_1 += chunk.toString()
-//     });
-//     req3.on('end', () => {
-//         console.log(id_1)
-//     })
-//     res3.redirect(307, '/files_page.html')
-//     app.post('/files_page.html',(req4,res4)=>{
-//         con.query(
-//             'select * from online_school.timetable where id = 21',
-//             async function(error, result){
-//                 if(error) throw error;
-//                 let ress = {}
-//                 for(let i = 0; i < result.length; i++){
-//                     var buffer = Buffer.from(result[i]['file'], 'binary' );
-//                     var bufferBase64 = buffer.toString('base64');
-//                     ress[result[i]['id']] = `${result[i]['id']} ${result[i]['time']} ${result[i]['id_group']} ${result[i]['lesson_topic']}`
-//                     ress['file'] = bufferBase64
-//                     console.log(bufferBase64)
-//                 }
-//                 console.log(ress)
-//                 res4.send(ress)
-//             }
-//         )
-//     })
-// })
-
-
-// app.post('/sendWork', function(req3, res3){ // принятие данных о пользователе при входе на сайт
-//     var par = JSON.parse(req3.body)
-//     console.log(par)
-//     res3.redirect(307, '/files_page.html')
-//     // app.post('/files_page.html',(req4,res4)=>{
-//     //     con.query(
-//     //         'select * from online_school.student_assignments where id_student = '+curUs+' and id_lesson='+id_g+'',
-//     //         async function(error, result){
-//     //             if(error) throw error;
-//     //             let ress = {}
-//     //             for(let i = 0; i < result.length; i++){
-//     //                 ress[result[i]['id']] = `${result[i]['id']} ${result[i]['id_student']} ${result[i]['id_lesson']} ${result[i]['homework_name_file']} ${result[i]['classwork_name_file']}`
-//     //                 ress['name_lesson'] = id_les
-//     //             }
-//     //             console.log(ress)
-//     //             res4.send(ress)
-//     //         }
-//     //     )
-//     // })
-// })
-
-
-// app.post('/sendWork', jsonParser, function(req3, res3){ // принятие данных о пользователе при входе на сайт
-//     var gg = req3.body
-//     console.log(gg)
-//     // res3.redirect(307, '/files_page.html')
-//     // app.post('/files_page.html',(req4,res4)=>{
-//     //     con.query(
-//     //         'select * from online_school.timetable where id = 21',
-//     //         async function(error, result){
-//     //             if(error) throw error;
-//     //             let ress = {}
-//     //             for(let i = 0; i < result.length; i++){
-//     //                 var buffer = Buffer.from(result[i]['file'], 'binary' );
-//     //                 var bufferBase64 = buffer.toString('base64');
-//     //                 ress[result[i]['id']] = `${result[i]['id']} ${result[i]['time']} ${result[i]['id_group']} ${result[i]['lesson_topic']}`
-//     //                 ress['file'] = bufferBase64
-//     //                 console.log(bufferBase64)
-//     //             }
-//     //             console.log(ress)
-//     //             res4.send(ress)
-//     //         }
-//     //     )
-//     // })
-// })
 
 var id_les
 var name_lesson
@@ -471,10 +294,11 @@ app.post('/sendIdGroupsStudSub', function(req3, res3){ // принятие да�
                 for(let i = 0; i < result.length; i++){
                     ress[result[i]['id']] = `${result[i]['id']} ${result[i]['time']} ${result[i]['id_group']} ${result[i]['subject']} ${result[i]['lesson_topic']}`
                 }
-                console.log(ress)
+                // console.log(ress)
                 res4.send(ress)
             }
         )
+
     })
 })
 
@@ -600,11 +424,12 @@ app.post('/up', function(req,res){
 var file_delete_path
 app.post('/delete_class', function(req,res){
     req.on('data', chunk =>{
-        file_delete_path = chunk.toString()})
+        file_delete_path = JSON.parse(chunk)
+    })
     req.on('end', () => {
         fs.unlinkSync(file_delete_path);
         con.query(
-            'delete from online_school.student_assignments WHERE student_assignments.classwork = '+file_delete_path+'',
+            'delete from online_school.student_assignments WHERE student_assignments.classwork = "'+file_delete_path+'"',
             async function(error, result){
                 if(error) throw error;
             }
@@ -615,13 +440,38 @@ app.post('/delete_class', function(req,res){
 var file_delete_path2
 app.post('/delete_home', function(req,res){
     req.on('data', chunk =>{
-        file_delete_path2 = chunk.toString()})
+        file_delete_path2 = JSON.parse(chunk)})
     req.on('end', () => {
         fs.unlinkSync(file_delete_path2);
         con.query(
-            'delete from online_school.student_assignments WHERE student_assignments.classwork = '+file_delete_path2+'',
+            'delete from online_school.student_assignments WHERE student_assignments.homework = "'+file_delete_path2+'"',
             async function(error, result){
                 if(error) throw error;
+            }
+        )
+    })
+})
+
+var day
+var theme
+app.post('/d', function(req, res){
+    var ddd = ''
+    req.on('data', chunk =>{
+        ddd = JSON.parse(chunk)
+        console.log(ddd)
+        day = ddd.da
+        theme = ddd.th
+        console.log(theme, day)
+    })
+    req.on('end', () => {
+        console.log(ddd)
+        console.log(theme, day)
+        con.query(
+            'insert into online_school.timetable(time, id_group, lesson_topic) values("'+day+'", '+id_gr_stud+', "'+theme+'")',
+            async function(error, result){
+                if(error) res.send('no')
+                res.send('ok')
+                // console.log(result)
             }
         )
     })

@@ -16,6 +16,7 @@ async function proc(data){ // функция для парсинга данны�
     var masOfMas = []
     for(let i = 0; i < masData.length - 4; i++){
         var masElem = masData[i].split('%')
+        console.log(masElem)
         if(masElem[0] !== "null"){
             masElem[0] = masElem[0].split('"')[3]
             name_file_class = masElem[0].split('/')
@@ -23,11 +24,15 @@ async function proc(data){ // функция для парсинга данны�
             masElem.splice(2, 0 , name_file_class)
         }
         if (masElem[0] === 'null') {
+            console.log(masElem[1])
             masElem[1] = masElem[1].replace('"', '')
             name_file_home = masElem[1].split('/')
             name_file_home = name_file_home[name_file_home.length - 1]
             masElem.splice(2, 0 , name_file_home)
         } 
+        if (masElem[0] === ''){
+            continue
+        }
         masOfMas.push(masElem)
     }
     console.log(masOfMas)
@@ -39,14 +44,14 @@ async function proc(data){ // функция для парсинга данны�
     function get_mas(){
         var file_class = document.querySelector('.classroom')
         var file_home = document.querySelector('.homework')
-        // file_class.innerHTML = ''
+        file_class.innerHTML = ''
         file_home.innerHTML = ''
             for(let i = 0; i < masOfMas.length; i++){
             if(masOfMas[i][0] != 'null'){
-                var push_file = `<div class="file_class"><a id="test_a" href="${masOfMas[i][0]}" download>${masOfMas[i][2]}</a><button class="btn" id="test_btn"></button></div>`
+                var push_file = `<div class="file_class"><a id="test_a" href="${masOfMas[i][0]}" download>${masOfMas[i][2]}</a><button class="btn" id="test_btn">&times;</button></div>`
                 file_class.innerHTML += push_file
             } else {
-                var push_file_h = `<div class="file_home"><a id="test_a" href="${masOfMas[i][1]}" download>${masOfMas[i][2]}</a><button class="btn" id="test_btn"></button></div>`
+                var push_file_h = `<div class="file_home"><a id="test" href="${masOfMas[i][1]}" download>${masOfMas[i][2]}</a><button class="btn" id="test_btn">&times;</button></div>`
                 file_home.innerHTML += push_file_h
             }
         }
@@ -127,44 +132,42 @@ async function proc(data){ // функция для парсинга данны�
         }
 
 
-    // document.getElementsByClassName('btn').addEventListener("click",function() {
-    //     href = document.getElementById('test_a').getAttribute('href');    
-    //     console.log(href)
-    // })
-    // document.querySelector('btn').addEventListener("click",function(){
-    //     console.log(document.getElementById('test_a').getAttribute('href'))
-    // })
-    // document.querySelector('.btn').addEventListener
 
-    document.querySelector('.classroom').onclick = function(e) {
-        const btn = e.target.closest('.btn');
-        if (!btn) {
-          return;
-        }
-        href = document.getElementById('test_a').getAttribute('href');
-        console.log(href)
-        // fetch('/delete_class', {
-        //     method: 'POST',
-        //     body: href
-        // })     
-        btn.parentElement.remove();
-        btn.closest('div').remove();
-      }
+    document.addEventListener('click', function(e){
+        var parent = e.target.closest(".file_class")
+        var text = parent.querySelector('#test_a').getAttribute('href')
+        fetch('/delete_class', {
+            method: 'POST',
+            body: JSON.stringify(text),
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'appliction/json'
+            }
+        }) 
+        // text.parentElement.remove();
+        // text.closest('.file_class').remove();
+        parent.remove()
+        get_mas()
+        console.log(text) 
+    })
 
-    document.querySelector('.homework').onclick = function(e) {
-      const btn = e.target.closest('.btn');
-      if (!btn) {
-        return;
-      }
-      href = document.getElementById('test_a').getAttribute('href');
-      console.log(href)
-    //   fetch('/delete_home', {
-    //       method: 'POST',
-    //       body: href
-    //   })     
-      btn.parentElement.remove();
-      btn.closest('div').remove();
-    }
+    document.addEventListener('click',  function(e) {
+        var parent = e.target.closest(".file_home")
+        var text = parent.querySelector('#test').getAttribute('href')
+        fetch('/delete_home', {
+            method: 'POST',
+            body: JSON.stringify(text),
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'appliction/json'
+            }
+        }) 
+        // text.parentElement.remove();
+        // parent.closest('.file_home').remove();
+        parent.remove()
+        get_mas()
+        console.log(text) 
+    })
 }
 
 request.send()

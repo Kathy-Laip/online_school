@@ -1,0 +1,126 @@
+@startuml
+class Animation_Object{
+protected double[] x_coords
+protected double[] y_coords
+protected System.Drawing.Color color 
+}
+class User{
+}
+class Client_Interface{
+public Container container
+public Settings_Interface settings_interface
+void Show()
+void Show_Settings_Interface()
+void Close()
+}
+class Settings_Interface{
+public Settings settings
+void Show()
+void Close()
+void ChangeSettings()
+void Show_Settings_Color_Interface()
+void Show_Settings_Mode_Interface()
+void Show_Settings_Type_Interface()
+}
+class Settings_Color_Interface{
+void Show()
+void Close()
+void SaveButton_onClick()
+void CancelButton_onClick()
+void CloseButton_onClick()
+void ChangeSettings()
+}
+class Settings_Mode_Interface{
+void Show()
+void Close()
+void SaveButton_onClick()
+void CancelButton_onClick()
+void CloseButton_onClick()
+void ChangeSettings()
+}
+class Settings_Type_Interface{
+void Show()
+void Close()
+void SaveButton_onClick()
+void CancelButton_onClick()
+void CloseButton_onClick()
+void ChangeSettings()
+}
+class Container{
+private int width
+private int height
+public void Resize()
+public Animation animation
+}
+class Animation{
+public bool state
+private void Draw()
+private void Create_Frame(Animation_Factory factory)
+private Animation_Object[] objects
+}
+class Settings{
+private static Settings instance
+public Type type
+public Mode mode
+public Color{} custom_colors
+public Color[] random_colors
+public Color[] gradient_colors
+public Color only_color
+public static Settings GetInstance()
+}
+enum Mode{
+Custom,
+Random,
+Gradient,
+Single
+}
+enum Type{
+Random,
+Figures,
+Lines,
+Mixed
+}
+abstract class Animation_Factory{
+public Settings settings
+protected Animation_Object CreateObject(settings.type)
+protected void UpdateObject(Animation_Object object, settings.type)
+}
+class CustomMode_Factory{
+public Settings settings
+private Animation_Object CreateObject_CustomMode(settings.type, settings.custom_colors)
+private void UpdateObject_CustomMode(settings.type, settings.custom_colors, Animation_Object object)
+}
+class RandomMode_Factory{
+public Settings settings
+private Animation_Object CreateObject_RandomMode(settings.type, settings.random_colors)
+private void UpdateObject_RandomMode(settings.type, settings.random_colors, Animation_Object object)
+}
+class GradientMode_Factory{
+public Settings settings
+private Animation_Object CreateObject_GradientMode(settings.type, settings.gradient_colors)
+private void UpdateObject_GradientMode(settings.type, settings.gradient_colors, Animation_Object object)
+}
+class SingleColorMode_Factory{
+public Settings settings
+private Animation_Object CreateObject_SingleColorMode(settings.type, settings.color)
+private void UpdateObject_SingleColorMode(settings.type, settings.color, Animation_Object object)
+}
+Container *-- Animation 
+Client --> Client_Interface
+Settings_Interface o-- Settings 
+Client_Interface *-- Container
+Client_Interface *-- Settings_Interface
+Settings_Interface *-- Settings_Color_Interface
+Settings_Interface *-- Settings_Type_Interface
+Settings_Interface *-- Settings_Mode_Interface
+Animation_Factory o-- Settings
+Animation o-- Animation_Factory
+Animation_Factory <|-- CustomMode_Factory
+Animation_Factory <|-- RandomMode_Factory
+Animation_Factory <|-- GradientMode_Factory
+Animation_Factory <|-- SingleColorMode_Factory
+CustomMode_Factory .. Animation_Object
+RandomMode_Factory .. Animation_Object
+GradientMode_Factory .. Animation_Object
+SingleColorMode_Factory .. Animation_Object
+@enduml

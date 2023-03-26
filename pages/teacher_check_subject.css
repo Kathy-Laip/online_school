@@ -19,6 +19,22 @@
     top: 33%;
 }
 
+.add{
+    font-size: 36px;
+    position: absolute;
+    left: 50%;
+    top: 33%;
+    background-color: var(--blue);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    color: var(--white);
+}
+
+.add:active{
+    background-color: var(--yellow);
+}
+
 .courses{
     position: absolute;
     left: 4%;
@@ -44,6 +60,23 @@
     border: none;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.btn_edit{
+    position: absolute;
+    right: 10%;
+    top: 8%;
+    width: 50px;
+    height: 50px;
+    font-size: 36px;
+    background-color: var(--blue);
+    background-color: transparent;
+    color: var(--white);
+    border: none;
+}
+
+.btn_edit:hover{
+    color: var(--yellow);
 }
 
 .btn_cour:hover{

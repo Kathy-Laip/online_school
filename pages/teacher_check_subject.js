@@ -125,6 +125,40 @@ async function proc(data){ // функция для парсинга данны�
         planedLesson.innerHTML = textPlaned
     }
 
+    document.querySelector('.add').onclick = function(){
+        var info_button_date = prompt('Добавьте дату занятия:')
+        var info_button_time = prompt('Добавьте время занятия:')
+        var info_button_theme = prompt('Добавьте тему занятия:')
+        
+        var info_button = info_button_date.split('.').reverse().join('-')
+        info_button += " " + info_button_time + ":00"
+        console.log(info_button, info_button_theme)
+
+        var info1 = {
+            da: info_button,
+            th: info_button_theme
+        }
+
+        dd_send()
+
+        function dd_send(){
+            fetch('/d', {
+                method: 'POST',
+                body: JSON.stringify(info1),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type': 'application/json'
+                    // x-www-form-urlencoded
+                }
+            })
+            .then(res => alert('Занятие добавлено!'))
+            .catch(res => 'Что-то не так..')
+        }
+
+    }
+
+    
+
     document.querySelectorAll('.btn_cour').forEach(n => n.onclick = function(){
         var id_gg = 0
         var innerBtn = n.innerHTML.split(" ").slice(2).join(" ")

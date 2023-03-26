@@ -9,6 +9,26 @@
     <link rel="stylesheet" href="logIn.css">
     <link rel="icon" href="image/logo.png">
     <title>Заявка</title>
+    <!-- <script src="https://smtpjs.com/v3/smtp.js"> </script>
+    <script type="text/javascript">
+        var surname = document.getElementById('text').value
+        var subb = document.getElementById('subb').value
+        var number_phone = document.getElementById('text1').value
+        var email = document.getElementById('text2').value
+        function sendMail(){
+            Email.send({
+            Host : "smtp.gmail.com",
+            Username : "yekaterina.shlyapnikova@gmail.com",
+            Password : "Kathy_Laip12345",
+            To : 'yekaterina.shlyapnikova@gmail.com',
+            From : 'yekaterina.shlyapnikova@gmail.com',
+            Subject : "Test email",
+            Body : `${surname} ${subb} ${number_phone} ${email}`
+        }).then(
+          message => alert(message)
+        );
+        }
+    </script> -->
 </head>
 <body>
     <div class="header1">
@@ -32,35 +52,37 @@
         </div>
     </div>
 
-    <div class="app text">
-        <div class="fio text">
-            <label for="text">ФИО:</label> <br>
-            <input type="text" id="text">
+    <form action="mailto:yekaterina.shlyapnikova@gmail.com">
+        <div class="app text">
+            <div class="fio text">
+                <label for="text">ФИО:</label> <br>
+                <input type="text" id="text">
+            </div>
+            <div class="subject text">
+                <label for="subb">Выберите предмет:</label> <br>
+                <select id="subb">
+                    <option value="Математика">Математика</option>
+                    <option value="Информатика">Информатика</option>
+                    <option value="История">История</option>
+                    <option value="Русский">Русский</option>
+                    <option value="Биология">Биология</option>
+                </select>
+            </div> 
+            <div class="numbers text">
+                <label for="text1">Номер телефона:</label> <br>
+                <input type="text" id="text1">
+            </div>
+    
+            <div class="email text">
+                <label for="text2">Почта:</label> <br>
+                <input type="email" id="text2">
+            </div>
+    
+            <div class="btnapp">
+                <button class="text btnappbtn">Отправить!</button>
+            </div>
         </div>
-        <div class="subject text">
-            <label for="subb">Выберите предмет:</label> <br>
-            <select id="subb">
-                <option value="Математика">Математика</option>
-                <option value="Информатика">Информатика</option>
-                <option value="История">История</option>
-                <option value="Русский">Русский</option>
-                <option value="Биология">Биология</option>
-            </select>
-        </div> 
-        <div class="numbers text">
-            <label for="text1">Номер телефона:</label> <br>
-            <input type="text" id="text1">
-        </div>
-
-        <div class="email text">
-            <label for="text2">Почта:</label> <br>
-            <input type="email" id="text2">
-        </div>
-
-        <div class="btnapp">
-            <button class="text btnappbtn">Отправить!</button>
-        </div>
-    </div>
+    </form>
         
     <div class="otstup">
     </div>
@@ -71,6 +93,6 @@
         <div class="number text">8 (800) 555-35-35</div>
     </div>
 
-    <script src="application.js"></script>
+    <!-- <script src="application.js"></script> -->
 </body>
 </html>

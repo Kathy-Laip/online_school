@@ -13,7 +13,9 @@ document.querySelector('.btnappbtn').onclick = function(){
         em: email
     }
     sent(info)
-}
+
+
+    }
 
 function sent(info){
     fetch('/sentInfo', {
