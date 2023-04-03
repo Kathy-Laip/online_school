@@ -200,10 +200,6 @@ async function proc(data){ // функция для парсинга данны�
         }, 1000)
     })
 
-    // <div class="con">
-    //         <button class='deleteLesson'>&times;</button><button class='updateLesson'>&#9998;</button>
-    //         <button class="btn_cour">№ 1 11.09.2022 Графы</button>
-    // </div>
     var deleteLesson = document.getElementsByClassName("deleteLesson");
     for(let i = 0; i < deleteLesson.length; i++){
         deleteLesson[i].addEventListener('click',  function(e) {
@@ -247,6 +243,8 @@ async function proc(data){ // функция для парсинга данны�
                     'Content-Type' : 'appliction/json'
                 }
             }) 
+            var text_old2 = parent.querySelector('.btn_cour').innerHTML.split(' ')[0] + ' ' + info_button_date + ' ' + info_button_theme
+            parent.querySelector('.btn_cour').innerHTML =  text_old2
             console.log(info) 
         })
     }
