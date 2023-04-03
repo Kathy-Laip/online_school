@@ -226,6 +226,7 @@ app.post('/upload-avatar2', async (req, res) => {
         console.log('ok')
         name_file = avatar.name
         f = avatar.data
+        console.log(f, name_file)
     } else{ console.log('no')}
     const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
     var pathp = path.join(p, '/', name_file)
@@ -324,7 +325,7 @@ app.post('/sendInfoStudent', function(req22, res22){
                 if(error) throw error;
                 let ress = {}
                 for(let i = 0; i < result.length; i++){
-                    ress[result[i]['id']] = ress[result[i]['id']] = `${result[i]['classwork']}%${result[i]['homework']}`
+                    ress[result[i]['id']] = `${result[i]['classwork']}%${result[i]['homework']}`
                 }
                 ress['text_id'] = `${result[0]['id']}`
                 ress['homework_text'] = fs.readFileSync(`${result[0]['homework_text']}`).toString('utf-8')
@@ -337,38 +338,94 @@ app.post('/sendInfoStudent', function(req22, res22){
     })
 })
 
+app.post('/up1', async (req, res) => {
+    let avatar = req.files.ava
+    if(avatar){
+        console.log('ok')
+        name_file = avatar.name
+        f = avatar.data
+    } else{ console.log('no')}
+    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    var pathp = path.join(p, '/', name_file)
+    try{
+        var d = fs.writeFileSync(pathp, f)
+    }
+    catch(err){
+        console.error(err)
+    }
+    var query = 'INSERT INTO online_school.student_assignments SET ?'
+    // var query = "UPDATE online_school.timetable SET ?"
+    var values = {
+        id_student: curUs,
+        id_lesson: Number(id_les_teach),
+        classwork: pathp,
+        classwork_name_file: name_file,
+    }; 
+    con.query(query, values, async function(error, result){
+        if(error) throw error;
+            res.send('ok')
+    })
+
+})
+
+app.post('/up2', async (req, res) => {
+    let avatar = req.files.avatar
+    if(avatar){
+        console.log('ok')
+        name_file = avatar.name
+        f = avatar.data
+        console.log(f, name_file)
+    } else{ console.log('no')}
+    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    var pathp = path.join(p, '/', name_file)
+    try{
+        var d = fs.writeFileSync(pathp, f)
+    }
+    catch(err){
+        console.error(err)
+    }
+    var query = `INSERT INTO online_school.student_assignments SET ?`, 
+    // var query = "UPDATE online_school.timetable SET ?"
+    values = {
+        id_student: curUs,
+        id_lesson: Number(id_les_teach),
+        homework: pathp,
+        homework_name_file: avatar.name,
+    }; 
+    con.query(query, values, async function(error, result){
+        if(error) throw error;
+            res.send('ok')})
+})
+
 
 var t
 var id_text
 var id_t 
-var pathp
 app.post('/updateSave', function(req22, res22){
     var po4 = ''
     req22.on('data', chunk =>{
         po4 = JSON.parse(chunk)
         t = po4.text
-        id_text = po4.id + 'home.docx'
+        id_text = po4.id
         id_t = po4.id 
-        const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
-        pathp = path.join(p, '/', id_text)
         try{
-            var d = fs.writeFileSync(pathp, t)
+            var d = fs.writeFileSync(id_text, t)
         }
         catch(err){
             console.error(err)
         }
     });
-    req22.on('end', () => {
-        console.log(po4)
-        con.query(
-            'UPDATE online_school.student_assignments SET homework_text = "'+pathp+'" WHERE student_assignments.id = '+id_t+'',
-            async function(error, result){
-                if(error) throw error;
-                console.log('text!')
-                res22.send('ok')
-            }
-        )
-    })
+    // req22.on('end', () => {
+    //     console.log(po4)
+    //     con.query(
+    //         'UPDATE online_school.student_assignments SET homework_text = "'+pathp+'" WHERE student_assignments.id = '+id_t+'',
+    //         async function(error, result){
+    //             if(error) throw error;
+    //             console.log('text!')
+    //             res22.send('ok')
+    //         }
+    //     )
+    // })
 })
 
 var tt
@@ -379,28 +436,26 @@ app.post('/updateSaveClass', function(req22, res22){
     req22.on('data', chunk =>{
         po4 = JSON.parse(chunk)
         tt = po4.text
-        id_textt = po4.id + 'class.docx'
+        id_textt = po4.id
         id_tt = po4.id
-        const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
-        pathp = path.join(p, '/', id_textt)
         try{
-            var d = fs.writeFileSync(pathp, tt)
+            var d = fs.writeFileSync(id_textt, tt)
         }
         catch(err){
             console.error(err)
         }
     });
-    req22.on('end', () => {
-        console.log(po4)
-        con.query(
-            'UPDATE online_school.student_assignments SET classwork_text = "'+pathp+'" WHERE student_assignments.id = '+id_tt+'',
-            async function(error, result){
-                if(error) throw error;
-                console.log('text!')
-                res22.send('ok')
-            }
-        )
-    })
+    // req22.on('end', () => {
+    //     console.log(po4)
+    //     con.query(
+    //         'UPDATE online_school.student_assignments SET classwork_text = "'+pathp+'" WHERE student_assignments.id = '+id_tt+'',
+    //         async function(error, result){
+    //             if(error) throw error;
+    //             console.log('text!')
+    //             res22.send('ok')
+    //         }
+    //     )
+    // })
 })
 
 app.post('/up', function(req,res){
@@ -427,7 +482,8 @@ app.post('/delete_class', function(req,res){
         file_delete_path = JSON.parse(chunk)
     })
     req.on('end', () => {
-        fs.unlinkSync(file_delete_path);
+        fs.rmSync(file_delete_path, {force:true})
+        // fs.unlinkSync(file_delete_path);
         con.query(
             'delete from online_school.student_assignments WHERE student_assignments.classwork = "'+file_delete_path+'"',
             async function(error, result){
@@ -442,7 +498,8 @@ app.post('/delete_home', function(req,res){
     req.on('data', chunk =>{
         file_delete_path2 = JSON.parse(chunk)})
     req.on('end', () => {
-        fs.unlinkSync(file_delete_path2);
+        fs.rmSync(file_delete_path2, {force:true})
+        // fs.unlinkSync(file_delete_path2);
         con.query(
             'delete from online_school.student_assignments WHERE student_assignments.homework = "'+file_delete_path2+'"',
             async function(error, result){
@@ -454,6 +511,7 @@ app.post('/delete_home', function(req,res){
 
 var day
 var theme
+var last_lesson
 app.post('/d', function(req, res){
     var ddd = ''
     req.on('data', chunk =>{
@@ -469,9 +527,151 @@ app.post('/d', function(req, res){
         con.query(
             'insert into online_school.timetable(time, id_group, lesson_topic) values("'+day+'", '+id_gr_stud+', "'+theme+'")',
             async function(error, result){
-                if(error) res.send('no')
                 res.send('ok')
-                // console.log(result)
+            }
+        )
+        con.query(
+            'select MAX(timetable.id) from online_school.timetable',
+            async function(error, result){
+                last_lesson = result[0]['MAX(timetable.id)']
+                console.log(last_lesson)
+                const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+                new_name_file_for_lesson_home = id_gr_stud + '_' + theme + 'home.docx'
+                new_name_file_for_lesson_class = id_gr_stud + '_' + theme + 'class.docx'
+                new_path_home = path.join(p, '/', new_name_file_for_lesson_home)
+                new_path_class = path.join(p, '/', new_name_file_for_lesson_class)
+                console.log(curStud)
+                console.log(last_lesson)
+                console.log(new_name_file_for_lesson_home)
+                console.log(new_name_file_for_lesson_class)
+                console.log(new_path_home)
+                console.log(new_path_class)
+                var students = []
+                con.query(
+                    'select id_student from online_school.group where group.id_group = '+id_gr_stud+'',
+                    async function(error, result){
+                    for(let i = 0; i < result.length; i++){
+                        students.push(result[i]['id_student'])
+                    }
+                    console.log(students)
+                    for(let i = 0; i < students.length; i++){
+                        con.query(
+                            'insert into online_school.student_assignments(id_student, id_lesson, homework, homework_name_file, classwork, classwork_name_file, homework_text, classwork_text) values('+students[i]+', '+last_lesson+', "'+new_path_home+'", "'+new_name_file_for_lesson_home+'", "'+new_path_class+'", "'+new_name_file_for_lesson_class+'", "'+new_path_home+'", "'+new_path_class+'")',
+                            async function(error, result){
+                                if(error) res.send('что-то пошло не так, попробуйте снова')
+                            }
+                        )
+                    }
+                })
+                fs.closeSync(fs.openSync(new_path_class, 'w'))
+                fs.closeSync(fs.openSync(new_path_home, 'w'))
+                }
+        )
+
+    })
+})
+
+app.post('/deleteLesson', function(req, res){
+    var deleteLesson = ''
+    req.on('data', chunk =>{
+        deleteLesson = JSON.parse(chunk)
+        console.log(deleteLesson)
+    })
+    req.on('end', () => {
+        const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+        var n_f = id_gr_stud + '_' + deleteLesson + 'home.docx'
+        var n_f2 = id_gr_stud + '_' + deleteLesson + 'class.docx'
+        var deleteFileName = path.join(p, '/', n_f)
+        var deleteFileName2 = path.join(p, '/', n_f2)
+        console.log(deleteFileName)
+        console.log(deleteFileName2)
+        var students = []
+        con.query(
+            'select id_student from online_school.group where group.id_group = '+id_gr_stud+'',
+            async function(error, result){
+            for(let i = 0; i < result.length; i++){
+                students.push(result[i]['id_student'])
+            }
+            console.log(students)
+            for(let i = 0; i < students.length; i++){
+                con.query(
+                    'delete from student_assignments where homework = "'+deleteFileName+'" and student_assignments.id_student = '+students[i]+'',
+                    async function(error, result){
+                    }
+                )
+            }
+            con.query(
+                'delete from timetable where lesson_topic = "'+deleteLesson+'"',
+                async function(error, result){
+                    
+                }
+            )
+            fs.rmSync(deleteFileName, {force:true})
+            fs.rmSync(deleteFileName2, {force:true})
+        })
+    })
+})
+
+app.post('/updateLesson', function(req, res){
+    // let info = {
+    //     old: text_old,
+    //     date: info_button,
+    //     theme: info_button_theme
+    // }
+    var updateLesson 
+    var old_file
+    var new_date
+    var new_file
+    req.on('data', chunk =>{
+        updateLesson = JSON.parse(chunk)
+        old_file = updateLesson.old
+        new_date = updateLesson.date.toString()
+        new_file = updateLesson.theme
+        console.log(new_date)
+    })
+    req.on('end', () => {
+        const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+        var n_f = id_gr_stud + '_' + new_file + 'home.docx'
+        var n_f2 = id_gr_stud + '_' + new_file + 'class.docx'
+        var updateFileName = path.join(p, '/', n_f)
+        var updateFileName2 = path.join(p, '/', n_f2)
+        console.log(updateFileName)
+        console.log(updateFileName2)
+        var n_f_o = id_gr_stud + '_' + old_file + 'home.docx'
+        var n_f_o2 = id_gr_stud + '_' + old_file + 'class.docx'
+        var updateFileName_o = path.join(p, '/', n_f_o)
+        var updateFileName_o2 = path.join(p, '/', n_f_o2)
+        console.log(updateFileName_o)
+        console.log(updateFileName_o2)
+        var students = []
+        // values = {
+        //     lesson_topic: new_file,
+        //     time: new_date,
+        // }; 
+        con.query(
+            'UPDATE timetable SET timetable.lesson_topic = "'+new_file+'", timetable.time = "'+new_date+'" WHERE timetable.lesson_topic = "'+old_file+'"',
+            async function(error, result){
+                fs.rmSync(updateFileName_o, {force:true})
+                fs.rmSync(updateFileName_o2, {force:true})
+                fs.closeSync(fs.openSync(updateFileName, 'w'))
+                fs.closeSync(fs.openSync(updateFileName2, 'w'))
+                con.query(
+                    'select id_student from online_school.group where group.id_group = '+id_gr_stud+'',
+                    async function(error, result){
+                    for(let i = 0; i < result.length; i++){
+                        students.push(result[i]['id_student'])
+                    }
+                    console.log(students)
+                    for(let i = 0; i < students.length; i++){
+                        con.query(
+                            'UPDATE student_assignments SET student_assignments.homework = "'+updateFileName+'", student_assignments.homework_name_file = "'+n_f+'", student_assignments.classwork = "'+updateFileName2+'", student_assignments.classwork_name_file = "'+n_f2+'", student_assignments.homework_text = "'+updateFileName+'", student_assignments.classwork_text = "'+updateFileName2+'" where student_assignments.homework = "'+updateFileName_o+'" and student_assignments.id_student = '+students[i]+'',
+                            async function(error, result){
+                                
+                            }
+                        )
+                    }
+                    
+                })
             }
         )
     })

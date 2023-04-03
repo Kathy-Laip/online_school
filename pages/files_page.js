@@ -14,7 +14,7 @@ async function proc(data){ // функция для парсинга данны�
     console.log(data)
     var masData = data.split(',')
     var masOfMas = []
-    for(let i = 0; i < masData.length - 4; i++){
+    for(let i = 1; i < masData.length - 4; i++){
         var masElem = masData[i].split('%')
         console.log(masElem)
         if(masElem[0] !== "null"){
@@ -48,16 +48,16 @@ async function proc(data){ // функция для парсинга данны�
         file_home.innerHTML = ''
             for(let i = 0; i < masOfMas.length; i++){
             if(masOfMas[i][0] != 'null'){
-                var push_file = `<div class="file_class"><a id="test_a" href="${masOfMas[i][0]}" download>${masOfMas[i][2]}</a><button class="btn" id="test_btn">&times;</button></div>`
+                var push_file = `<div class="file_class"><a id="test_a" href="${masOfMas[i][0]}" download>${masOfMas[i][2]}</a><button class="btn_class" id="test_btn">&times;</button></div>`
                 file_class.innerHTML += push_file
             } else {
-                var push_file_h = `<div class="file_home"><a id="test" href="${masOfMas[i][1]}" download>${masOfMas[i][2]}</a><button class="btn" id="test_btn">&times;</button></div>`
+                var push_file_h = `<div class="file_home"><a id="test" href="${masOfMas[i][1]}" download>${masOfMas[i][2]}</a><button class="btn_home" id="test_btn">&times;</button></div>`
                 file_home.innerHTML += push_file_h
             }
         }
     }
 
-    var text_id = masData[masData.length - 4].split(':')[1].slice(1).replaceAll('"', '')
+    var text_id = masData[0].split(':')[1].replaceAll('"', '').split('%')
 
     var homework_text = document.getElementById('homeInfo')
     homework_text.innerHTML += masData[masData.length - 3].split(":")[1].replaceAll('"', '')
@@ -92,7 +92,7 @@ async function proc(data){ // функция для парсинга данны�
         .then(res => {
             alert('Классная работа отправлена!')
             const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files/' + file.name
-            masOfMas.push([p,'','', file.name])
+            masOfMas.push([p,'null\"', file.name]) 
             get_mas()
         } )
         // res.json())
@@ -131,8 +131,7 @@ async function proc(data){ // функция для парсинга данны�
         .catch(err => console.error(err))
         }
 
-
-
+    
     document.addEventListener('click', function(e){
         var parent = e.target.closest(".file_class")
         var text = parent.querySelector('#test_a').getAttribute('href')
@@ -145,9 +144,10 @@ async function proc(data){ // функция для парсинга данны�
             }
         }) 
         // text.parentElement.remove();
+        parent.closest('.file_class').remove();
         // text.closest('.file_class').remove();
-        parent.remove()
-        get_mas()
+        // parent.remove()
+        // get_mas()
         console.log(text) 
     })
 
@@ -163,9 +163,9 @@ async function proc(data){ // функция для парсинга данны�
             }
         }) 
         // text.parentElement.remove();
-        // parent.closest('.file_home').remove();
-        parent.remove()
-        get_mas()
+        parent.closest('.file_home').remove();
+        // parent.remove()
+        // get_mas()
         console.log(text) 
     })
 }

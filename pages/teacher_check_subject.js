@@ -50,7 +50,11 @@ async function proc(data){ // функция для парсинга данны�
     for(let i = 0; i < masOfMas.length; i++){
         var sub = document.querySelector('.courses')
         var name_theme = masOfMas[i].slice(12).join(' ')
-        var text_courses = `<button class="btn_cour">№${i+1} ${masOfMas[i][3]}.${masOfMas[i][2]}.${masOfMas[i][4]} ${name_theme}</button>`
+        var text_courses = `
+        <div class="con">
+            <button class='deleteLesson'>&times;</button><button class='updateLesson'>&#9998;</button><button class="btn_cour">№${i+1} ${masOfMas[i][3]}.${masOfMas[i][2]}.${masOfMas[i][4]} ${name_theme}</button>
+        </div>
+        `
         sub.innerHTML += text_courses
     }
 
@@ -196,6 +200,56 @@ async function proc(data){ // функция для парсинга данны�
         }, 1000)
     })
 
+    // <div class="con">
+    //         <button class='deleteLesson'>&times;</button><button class='updateLesson'>&#9998;</button>
+    //         <button class="btn_cour">№ 1 11.09.2022 Графы</button>
+    // </div>
+    var deleteLesson = document.getElementsByClassName("deleteLesson");
+    for(let i = 0; i < deleteLesson.length; i++){
+        deleteLesson[i].addEventListener('click',  function(e) {
+            var parent = e.target.closest(".con")
+            var text = parent.querySelector('.btn_cour').innerHTML.split(' ').slice(2).join(' ')
+            fetch('/deleteLesson', {
+                method: 'POST',
+                body: JSON.stringify(text),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'appliction/json'
+                }
+            }) 
+            parent.closest('.con').remove();
+            console.log(parent) 
+            console.log(text) 
+        }, false)
+    }
+
+    var updateLesson = document.getElementsByClassName("updateLesson");
+    for(let i = 0; i < updateLesson.length; i++){
+        updateLesson[i].addEventListener('click',  function(e) {
+            var parent = e.target.closest(".con")
+            var text_old = parent.querySelector('.btn_cour').innerHTML.split(' ').slice(2).join(' ')
+            var info_button_date = prompt('Добавьте дату занятия:')
+            var info_button_time = prompt('Добавьте время занятия:')
+            var info_button_theme = prompt('Добавьте тему занятия:')
+            
+            var info_button = info_button_date.split('.').reverse().join('-')
+            info_button += " " + info_button_time + ":00"
+            let info = {
+                old: text_old,
+                date: info_button,
+                theme: info_button_theme
+            }
+            fetch('/updateLesson', {
+                method: 'POST',
+                body: JSON.stringify(info),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'appliction/json'
+                }
+            }) 
+            console.log(info) 
+        })
+    }
 }
 
 request.send()
