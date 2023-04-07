@@ -12,6 +12,8 @@ let app = express()
 app.use(express.static('pages')) //использование папки public, в котором хранятся html, css документы
 app.use(fileUpload())
 
+const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+
 let mysql = require('mysql') // mysql модуль
 let con = mysql.createConnection({ // подключение к базе данных
     host: '127.0.0.1',
@@ -197,7 +199,7 @@ app.post('/upload-avatar1', async (req, res) => {
         name_file = avatar.name
         f = avatar.data
     } else{ console.log('no')}
-    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    // const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
     var pathp = path.join(p, '/', name_file)
     try{
         var d = fs.writeFileSync(pathp, f)
@@ -228,7 +230,7 @@ app.post('/upload-avatar2', async (req, res) => {
         f = avatar.data
         console.log(f, name_file)
     } else{ console.log('no')}
-    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    // const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
     var pathp = path.join(p, '/', name_file)
     try{
         var d = fs.writeFileSync(pathp, f)
@@ -345,7 +347,7 @@ app.post('/up1', async (req, res) => {
         name_file = avatar.name
         f = avatar.data
     } else{ console.log('no')}
-    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    // const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
     var pathp = path.join(p, '/', name_file)
     try{
         var d = fs.writeFileSync(pathp, f)
@@ -376,7 +378,7 @@ app.post('/up2', async (req, res) => {
         f = avatar.data
         console.log(f, name_file)
     } else{ console.log('no')}
-    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    // const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
     var pathp = path.join(p, '/', name_file)
     try{
         var d = fs.writeFileSync(pathp, f)
@@ -465,7 +467,7 @@ app.post('/up', function(req,res){
         name_file = a.name
         f = a.data
     } else{ console.log('no')}
-    const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+    // const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
     var pathp = path.join(p, '/', name_file)
     try{
         var d = fs.writeFileSync(pathp, f)
@@ -535,7 +537,7 @@ app.post('/d', function(req, res){
             async function(error, result){
                 last_lesson = result[0]['MAX(timetable.id)']
                 console.log(last_lesson)
-                const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+                // const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
                 new_name_file_for_lesson_home = id_gr_stud + '_' + theme + 'home.docx'
                 new_name_file_for_lesson_class = id_gr_stud + '_' + theme + 'class.docx'
                 new_path_home = path.join(p, '/', new_name_file_for_lesson_home)
@@ -578,7 +580,7 @@ app.post('/deleteLesson', function(req, res){
         console.log(deleteLesson)
     })
     req.on('end', () => {
-        const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+        // const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
         var n_f = id_gr_stud + '_' + deleteLesson + 'home.docx'
         var n_f2 = id_gr_stud + '_' + deleteLesson + 'class.docx'
         var deleteFileName = path.join(p, '/', n_f)
@@ -630,7 +632,7 @@ app.post('/updateLesson', function(req, res){
         console.log(new_date)
     })
     req.on('end', () => {
-        const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
+        // const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
         var n_f = id_gr_stud + '_' + new_file + 'home.docx'
         var n_f2 = id_gr_stud + '_' + new_file + 'class.docx'
         var updateFileName = path.join(p, '/', n_f)
