@@ -1,15 +1,10 @@
 let express = require('express') // node express
-// var bodyParser = require('body-parser') 
 const fileUpload = require('express-fileupload')
 const formidable = require('formidable');
 const { Blob } = require("buffer");
 var fs = require('fs');
 var path = require('path')
 let app = express()
-// var jsonParser = bodyParser.json() // преобразование json -  строк
-// app.use(express.json()) // использование json
-// app.use(express.urlencoded())
-app.use(express.static('pages')) //использование папки public, в котором хранятся html, css документы
 app.use(fileUpload())
 
 const p = '/Users/ekaterinaslapnikova/Documents/project_online_school/online_school/pages/files'
@@ -22,12 +17,7 @@ let con = mysql.createConnection({ // подключение к базе дан�
     database: 'online_school'
 });
 
-app.use(express.static('public')) //использование папки public, в котором хранятся html, css документы
-// app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-//   extended: true
-// }));
-
-// app.use(bodyParser.json() );       // to support JSON-encoded bodies
+app.use(express.static('pages')) //использование папки public, в котором хранятся html, css документы
 
 con.connect(function(err){ // попытка подключение к базе данных
     if(err) throw err
